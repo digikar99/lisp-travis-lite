@@ -1,0 +1,14 @@
+language: common-lisp
+sudo: required
+
+env:
+  matrix:
+    - LISP=sbcl
+    - LISP=abcl
+
+install:
+  - echo $PWD
+  - source ./run.sh
+
+script:
+  - cl --eval '(print "hello")'
