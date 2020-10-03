@@ -1,10 +1,10 @@
 language: common-lisp
-sudo: required
 
 env:
   matrix:
     - LISP=sbcl
     - LISP=abcl
+    - LISP=ccl
 
 install:
   - echo $PWD

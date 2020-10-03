@@ -33,6 +33,21 @@ prepare_sbcl(){
     install_cl "$PWD/lisp"
 }
 
+prepare_ccl(){
+    CCL="ccl-1.12-linux-x86_64"
+    LISP_URL="https://github.com/digikar99/ccl-images/raw/master/$CCL.image.tar.gz"
+    # TODO: Find a better place to host images; currently using box.com
+    echo Downloading $LISP from $LISP_URL...
+    if [ -z $DRY_RUN ] ; then
+        wget "$LISP_URL" -O lisp.tar.gz
+        tar -xzf "lisp.tar.gz"
+        ls -l
+        chmod +x ./$CCL.image
+    fi
+    echo Downloaded
+    install_cl "$PWD/$CCL.image"
+}
+
 prepare_abcl(){
     ABCL_VERSION="1.7.1" # TODO: check if already defined
     LISP_URL="https://abcl.org/releases/$ABCL_VERSION/abcl-bin-$ABCL_VERSION.tar.gz"
