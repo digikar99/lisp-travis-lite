@@ -8,7 +8,11 @@ env:
 
 install:
   - echo $PWD
-  - source ./run.sh
+  - ls
+  - bash run.sh
 
 script:
-  - cl --eval '(print "hello")'
+  - cl --eval '(print "hello")' --eval '(quit)'
+
+notifications:
+  email: false

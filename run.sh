@@ -10,14 +10,27 @@
 
 DRY_RUN=$1 # dry run if at least one argument is supplied
 
+install_cl(){
+    # mkdir "$HOME/bin"
+    echo $PATH
+    cl_file="$HOME/bin/cl"
+    ls -l "$HOME/bin"
+    echo "#!/bin/bash" > "$cl_file"
+    echo "$1" '"$@"' >> "$cl_file"
+    chmod +x "$cl_file"
+    cat "$cl_file"
+}
+
 prepare_sbcl(){
     LISP_URL="https://gitlab.com/digikar99/sbcl-images/-/raw/master/sbcl-2.0.9-linux-x86_64.image"
     echo Downloading $LISP from $LISP_URL...
     if [ -z $DRY_RUN ] ; then
         wget "$LISP_URL" -O lisp
+        ls -l
+        chmod +x ./lisp
     fi
     echo Downloaded
-    alias cl="$PWD/lisp"
+    install_cl "$PWD/lisp"
 }
 
 prepare_abcl(){
@@ -29,7 +42,7 @@ prepare_abcl(){
         tar -xzf "abcl-bin-$ABCL_VERSION.tar.gz"
     fi
     echo Downloaded
-    alias cl="java -jar $PWD/abcl-bin-$ABCL_VERSION/abcl.jar"
+    install_cl "java -jar $PWD/abcl-bin-$ABCL_VERSION/abcl.jar"
 }
 
 install_quicklisp(){
@@ -37,8 +50,8 @@ install_quicklisp(){
     wget "https://beta.quicklisp.org/quicklisp.lisp" -O "$HOME/quicklisp.lisp"
     cd $HOME
     # Below we remove a prompt to append quicklisp autoload code to the implementations init file
-    cl --load '(load "quicklisp.lisp")' --eval \
-       '(progn
+    cl --load "quicklisp.lisp" --eval <<EOF
+       (progn
           (quicklisp-quickstart:install)
           (in-package :ql-impl-util)
           (defun add-to-init-file (&optional implementation-or-file)
@@ -57,7 +70,8 @@ install_quicklisp(){
                                       :if-exists :append)
                 (write-init-forms stream))
               init-file))
-          (add-to-init-file))'
+          (add-to-init-file))
+EOF
     echo Successfully installed quicklisp!
 }
 
