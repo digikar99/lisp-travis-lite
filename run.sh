@@ -22,7 +22,7 @@ install_cl(){
 }
 
 prepare_sbcl(){
-    LISP_URL="https://gitlab.com/digikar99/sbcl-images/-/raw/master/sbcl-2.0.9-linux-x86_64.image"
+    LISP_URL="https://github.com/digikar99/sbcl-images/raw/master/sbcl-2.0.9-linux-x86_64.image"
     echo Downloading $LISP from $LISP_URL...
     if [ -z $DRY_RUN ] ; then
         wget "$LISP_URL" -O lisp
@@ -50,29 +50,26 @@ install_quicklisp(){
     wget "https://beta.quicklisp.org/quicklisp.lisp" -O "$HOME/quicklisp.lisp"
     cd $HOME
     # Below we remove a prompt to append quicklisp autoload code to the implementations init file
-    cl --load "quicklisp.lisp" --eval <<EOF
-       (progn
-          (quicklisp-quickstart:install)
-          (in-package :ql-impl-util)
-          (defun add-to-init-file (&optional implementation-or-file)
-            "Add forms to the Lisp implementations init file that will load
-              quicklisp at CL startup."
-            (let ((init-file (suitable-lisp-init-file implementation-or-file)))
-              (unless init-file
-                (error "Do not know how to add to init file for your implementation."))
-              (setf init-file (merge-pathnames init-file (user-homedir-pathname)))
-              (format *query-io* "~&I will append the following lines to ~S:~%"
-                      init-file)
-              (write-init-forms *query-io* :indentation 2)
-              (with-open-file (stream init-file
-                                      :direction :output
-                                      :if-does-not-exist :create
-                                      :if-exists :append)
-                (write-init-forms stream))
-              init-file))
-          (add-to-init-file))
-EOF
-    echo Successfully installed quicklisp!
+    # Also, some implementations like ABCL necessitate an explicit one-by-one form evaluation
+    cl --load "quicklisp.lisp" --eval '(quicklisp-quickstart:install)' \
+       --eval '(in-package :ql-impl-util)' --eval \
+       '(defun add-to-init-file (&optional implementation-or-file)
+          "Add forms to the Lisp implementations init file that will load
+            quicklisp at CL startup."
+          (let ((init-file (suitable-lisp-init-file implementation-or-file)))
+            (unless init-file
+              (error "Do not know how to add to init file for your implementation."))
+            (setf init-file (merge-pathnames init-file (user-homedir-pathname)))
+            (format *query-io* "~&I will append the following lines to ~S:~%"
+                    init-file)
+            (write-init-forms *query-io* :indentation 2)
+            (with-open-file (stream init-file
+                                    :direction :output
+                                    :if-does-not-exist :create
+                                    :if-exists :append)
+              (write-init-forms stream))
+            init-file))' --eval '(progn (add-to-init-file) (cl-user::quit))' \
+                && echo Successfully installed quicklisp!
 }
 
 cd $HOME
