@@ -8,7 +8,12 @@ env:
 
 install:
   - echo $PWD
-  - source ./run.sh
+  - ls
+  - bash run.sh
 
 script:
-  - cl --eval '(print "hello")'
+  - cl --eval '(print "hello")' --eval '(quit)'
+  - cl --eval '(ql:quickload "alexandria")' --eval '(quit)'
+
+notifications:
+  email: false
