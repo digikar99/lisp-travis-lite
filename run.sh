@@ -60,6 +60,18 @@ prepare_abcl(){
     install_cl "java -jar $PWD/abcl-bin-$ABCL_VERSION/abcl.jar"
 }
 
+prepare_ecl(){
+    ECL_VERSION="20.4.24"
+    LISP_URL="https://cdn.cddr.org/ci/ecl-$ECL_VERSION-linux-amd64.tar.gz"
+    echo Downloading $LISP from $LISP_URL...
+    if [ -z $DRY_RUN ] ; then
+        wget "$LISP_URL" -O "ecl-$ECL_VERSION.tar.gz"
+        sudo tar -C / -xzf "ecl-$ECL_VERSION.tar.gz"
+    fi
+    echo Downloaded
+    install_cl "/usr/local/bin/ecl"
+}
+
 install_quicklisp(){
     echo Installing quicklisp...
     wget "https://beta.quicklisp.org/quicklisp.lisp" -O "$HOME/quicklisp.lisp"
