@@ -30,7 +30,7 @@ prepare_sbcl(){
         chmod +x ./lisp
     fi
     echo Downloaded
-    install_cl "$PWD/lisp"
+    install_cl "$PWD/lisp --dynamic-space-size 4096"
 }
 
 prepare_ccl(){
