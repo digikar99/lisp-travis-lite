@@ -15,6 +15,7 @@ install:
 script:
   - cl --eval '(print "hello")' --eval '(quit)'
   - cl --eval '(ql:quickload "alexandria")' --eval '(quit)'
+  - cl --eval '(uiop:quit 0)'
 
 notifications:
   email: false
