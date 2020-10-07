@@ -104,4 +104,5 @@ echo Currently in $(pwd)...
 prepare_"$LISP"
 cl --eval '(quit)' # print (potentially) version information and quit
 install_quicklisp
+cl="$cl --load $HOME/quicklisp/setup.lisp"
 
