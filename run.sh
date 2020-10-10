@@ -22,7 +22,7 @@ install_cl(){
 }
 
 prepare_sbcl(){
-    LISP_URL="https://github.com/digikar99/sbcl-images/raw/master/sbcl-2.0.9-linux-x86_64.image"
+    LISP_URL="https://archive.org/download/sbcl-2.0.9-linux-x86_64/sbcl-2.0.9-linux-x86_64.image"
     echo Downloading $LISP from $LISP_URL...
     if [ -z $DRY_RUN ] ; then
         wget "$LISP_URL" -O lisp
@@ -35,8 +35,7 @@ prepare_sbcl(){
 
 prepare_ccl(){
     CCL="ccl-1.12-linux-x86_64"
-    LISP_URL="https://github.com/digikar99/ccl-images/raw/master/$CCL.image.tar.gz"
-    # TODO: Find a better place to host images; currently using box.com
+    LISP_URL="https://archive.org/download/$CCL/$CCL.image.tar.gz"
     echo Downloading $LISP from $LISP_URL...
     if [ -z $DRY_RUN ] ; then
         wget "$LISP_URL" -O lisp.tar.gz
