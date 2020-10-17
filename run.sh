@@ -64,7 +64,7 @@ prepare_ecl(){
     LISP_URL="https://cdn.cddr.org/ci/ecl-$ECL_VERSION-linux-amd64.tar.gz"
     echo Downloading $LISP from $LISP_URL...
     if [ -z $DRY_RUN ] ; then
-        wget "$LISP_URL" -O "ecl-$ECL_VERSION.tar.gz"
+        wget --no-check-certificate "$LISP_URL" -O "ecl-$ECL_VERSION.tar.gz"
         sudo tar -C / -xzf "ecl-$ECL_VERSION.tar.gz"
     fi
     echo Downloaded
