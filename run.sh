@@ -54,17 +54,16 @@ prepare_sbcl(){
 }
 
 prepare_ccl(){
-    CCL="ccl-1.12-linux-x86_64"
-    LISP_URL="https://archive.org/download/$CCL/$CCL.image.tar.gz"
+    CCL="ccl-1.12-linuxx86"
+    LISP_URL="https://github.com/roswell/ccl_bin/releases/download/1.12/$CCL.tar.gz"
     echo Downloading $LISP from $LISP_URL...
     if [ -z $DRY_RUN ] ; then
-        wget "$LISP_URL" -O lisp.tar.gz
-        tar -xzf "lisp.tar.gz"
+        wget "$LISP_URL" -O $CCL.tar.gz
+        tar -xzf "$CCL.tar.gz"
         ls -l
-        chmod +x ./$CCL.image
     fi
     echo Downloaded
-    install_cl "$PWD/$CCL.image"
+    install_cl "$PWD/ccl/lx86cl64"
 }
 
 prepare_abcl(){
