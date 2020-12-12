@@ -13,6 +13,7 @@ install:
   - bash run.sh
 
 script:
+  - echo $PATH
   - cl --eval '(print "hello")'
   - cl --eval '(ql:quickload "alexandria")'
   - cl --eval '(uiop:quit 0)'

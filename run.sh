@@ -19,6 +19,7 @@ install_cl(){
     echo "$1" '"$@"' " --eval '(quit)'" >> "$cl_file"
     chmod +x "$cl_file"
     cat "$cl_file"
+    echo "PATH=$HOME/bin:\$PATH" >> $HOME/.bashrc
 }
 
 prepare_sbcl(){
