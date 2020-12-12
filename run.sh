@@ -11,7 +11,7 @@
 DRY_RUN=$1 # dry run if at least one argument is supplied
 
 install_cl(){
-    # mkdir "$HOME/bin"
+    mkdir "$HOME/bin"
     echo $PATH
     cl_file="$HOME/bin/cl"
     ls -l "$HOME/bin"
