@@ -21,6 +21,22 @@ install_cl(){
     chmod +x "$cl_file"
     cat "$cl_file"
     echo "PATH=$HOME/bin:\$PATH" >> $HOME/.bashrc
+    cl --eval '(quit)' # print (potentially) version information and quit
+    install_quicklisp
+
+    # Load quicklisp by default
+    cl_file="$HOME/bin/cl"
+    echo "#!/bin/bash" > "$cl_file"
+    echo "$1 --load $HOME/quicklisp/setup.lisp \\
+             --eval '(ql:quickload \"trivial-backtrace\")' \\
+             --eval '(setf *debugger-hook*
+                           (lambda (c h)
+                             (declare (ignore h))
+                             (trivial-backtrace:print-backtrace c)
+                              (uiop:quit 1)))'" \
+         '"$@"' " --eval '(quit)'" >> "$cl_file"
+    chmod +x "$cl_file"
+    cat "$cl_file"
 }
 
 prepare_sbcl(){
@@ -34,7 +50,7 @@ prepare_sbcl(){
         ls -l "$SBCL_DIR"
     fi
     echo Downloaded
-    install_cl "bash $PWD/$SBCL_DIR/run-sbcl.sh --dynamic-space-size 4096 --non-interactive"
+    install_cl "bash $PWD/$SBCL_DIR/run-sbcl.sh --dynamic-space-size 4096"
 }
 
 prepare_ccl(){
@@ -48,7 +64,7 @@ prepare_ccl(){
         chmod +x ./$CCL.image
     fi
     echo Downloaded
-    install_cl "$PWD/$CCL.image -b"
+    install_cl "$PWD/$CCL.image"
 }
 
 prepare_abcl(){
@@ -105,7 +121,4 @@ install_quicklisp(){
 cd $HOME
 echo Currently in $(pwd)...
 prepare_"$LISP"
-cl --eval '(quit)' # print (potentially) version information and quit
-install_quicklisp
-cl="$cl --load $HOME/quicklisp/setup.lisp"
 
