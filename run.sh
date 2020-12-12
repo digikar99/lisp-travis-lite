@@ -9,6 +9,7 @@
 # Implementations should support --eval and --load arguments
 
 DRY_RUN=$1 # dry run if at least one argument is supplied
+PLATFORM="x86-64-linux"
 
 install_cl(){
     mkdir "$HOME/bin"
@@ -23,15 +24,17 @@ install_cl(){
 }
 
 prepare_sbcl(){
-    LISP_URL="https://archive.org/download/sbcl-2.0.9-linux-x86_64/sbcl-2.0.9-linux-x86_64.image"
+    SBCL_VERSION="2.0.11"
+    SBCL_DIR="sbcl-$SBCL_VERSION-$PLATFORM"
+    LISP_URL="https://github.com/roswell/sbcl_bin/releases/download/$SBCL_VERSION/$SBCL_DIR-binary.tar.bz2"
     echo Downloading $LISP from $LISP_URL...
     if [ -z $DRY_RUN ] ; then
-        wget "$LISP_URL" -O lisp
-        ls -l
-        chmod +x ./lisp
+        wget "$LISP_URL" -O "$SBCL_DIR.tar.bz2"
+        tar -xf "$SBCL_DIR.tar.bz2"
+        ls -l "$SBCL_DIR"
     fi
     echo Downloaded
-    install_cl "$PWD/lisp --dynamic-space-size 4096 --non-interactive"
+    install_cl "bash $PWD/$SBCL_DIR/run-sbcl.sh --dynamic-space-size 4096 --non-interactive"
 }
 
 prepare_ccl(){
