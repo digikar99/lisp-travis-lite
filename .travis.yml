@@ -13,8 +13,8 @@ install:
   - bash run.sh
 
 script:
-  - cl --eval '(print "hello")' --eval '(quit)'
-  - cl --eval '(ql:quickload "alexandria")' --eval '(quit)'
+  - cl --eval '(print "hello")'
+  - cl --eval '(ql:quickload "alexandria")'
   - cl --eval '(uiop:quit 0)'
 
 notifications:

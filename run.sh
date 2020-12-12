@@ -16,7 +16,7 @@ install_cl(){
     cl_file="$HOME/bin/cl"
     ls -l "$HOME/bin"
     echo "#!/bin/bash" > "$cl_file"
-    echo "$1" '"$@"' >> "$cl_file"
+    echo "$1" '"$@"' " --eval '(quit)'" >> "$cl_file"
     chmod +x "$cl_file"
     cat "$cl_file"
 }
@@ -30,7 +30,7 @@ prepare_sbcl(){
         chmod +x ./lisp
     fi
     echo Downloaded
-    install_cl "$PWD/lisp --dynamic-space-size 4096"
+    install_cl "$PWD/lisp --dynamic-space-size 4096 --non-interactive"
 }
 
 prepare_ccl(){
@@ -44,7 +44,7 @@ prepare_ccl(){
         chmod +x ./$CCL.image
     fi
     echo Downloaded
-    install_cl "$PWD/$CCL.image"
+    install_cl "$PWD/$CCL.image -b"
 }
 
 prepare_abcl(){
