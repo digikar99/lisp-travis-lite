@@ -1,0 +1,48 @@
+on:
+  push:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  test:
+
+    name: ${{ matrix.lisp }}
+
+    strategy:
+      matrix:
+        lisp: [sbcl, ccl, ecl, abcl]
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Update $PATH
+      run: |
+        echo $PATH
+        echo "PATH=$HOME/bin:$PATH" >> $GITHUB_ENV
+    - name: Check $PATH
+      run: echo $PATH
+
+# February 2020:
+# cl-travis issue - tput: No value for $TERM and no -T specified
+# roswell issue - libcurl3 versions
+
+    - name: Download implementation
+      env:
+        LISP: ${{ matrix.lisp }}
+      run: |
+        pwd
+        ls -l
+        bash <(curl -s https://raw.githubusercontent.com/digikar99/lisp-travis-lite/master/run.sh)
+
+    - name: Run Tests
+      run: |
+        echo $PATH
+        cl --eval '(print "hello")'
+        cl --eval '(ql:quickload "alexandria")'
+        cl --eval '(this-will-error)' || echo $?
+        cl --eval '(this-too' || echo $?
+        cl --eval '(uiop:quit 0)'
+
