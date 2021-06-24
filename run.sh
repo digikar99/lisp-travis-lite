@@ -29,21 +29,21 @@ install_cl(){
     echo "#!/bin/bash" > "$cl_file"
     # https://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
     if [ -z "${IGNORE_BACKTRACE+ignore_backtrace}" ]; then
-        # trivial-backtrace in the January 2021 quicklisp distribution does not load on CCL
-        echo Skipping trivial-backtrace
-        echo "$1 --load $HOME/quicklisp/setup.lisp \\
-             --eval '(setf *debugger-hook*
-                           (lambda (c h)
-                             (declare (ignore c h))
-                              (uiop:quit 1)))'" \
-                                  '"$@"' " --eval '(quit)'" >> "$cl_file"
-    else
         echo "$1 --load $HOME/quicklisp/setup.lisp \\
              --eval '(ql:quickload \"trivial-backtrace\")' \\
              --eval '(setf *debugger-hook*
                            (lambda (c h)
                              (declare (ignore h))
                              (trivial-backtrace:print-backtrace c)
+                              (uiop:quit 1)))'" \
+                                  '"$@"' " --eval '(quit)'" >> "$cl_file"
+    else
+        # trivial-backtrace in the January 2021 quicklisp distribution does not load on CCL
+        echo Skipping trivial-backtrace
+        echo "$1 --load $HOME/quicklisp/setup.lisp \\
+             --eval '(setf *debugger-hook*
+                           (lambda (c h)
+                             (declare (ignore c h))
                               (uiop:quit 1)))'" \
                                   '"$@"' " --eval '(quit)'" >> "$cl_file"
     fi
