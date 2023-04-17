@@ -91,7 +91,7 @@ prepare_abcl(){
 }
 
 prepare_ecl(){
-    ECL_VERSION="20.4.24"
+    ECL_VERSION="21.2.1"
     LISP_URL="https://cdn.cddr.org/ci/ecl-$ECL_VERSION-linux-amd64.tar.gz"
     echo Downloading $LISP from $LISP_URL...
     if [ -z $DRY_RUN ] ; then
