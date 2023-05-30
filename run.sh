@@ -3,6 +3,7 @@
 # Should install $LISP
 # Should output $LISP --version
 # Should install quicklisp by default
+# Should install clpm by default
 # Should push current directory to ql:*local-project-directories* if quicklisp is installed
 
 # source run.sh to be able to run LISP
@@ -23,6 +24,7 @@ install_cl(){
     echo "PATH=$HOME/bin:\$PATH" >> $HOME/.bashrc
     cl --eval '(quit)' # print (potentially) version information and quit
     install_quicklisp
+    install_clpm
 
     # Load quicklisp by default
     cl_file="$HOME/bin/cl"
@@ -129,7 +131,29 @@ install_quicklisp(){
                 && echo Successfully installed quicklisp!
 }
 
+install_clpm(){
+    echo Installing clpm...
+    cd $HOME
+    # Instructions can be found at https://www.clpm.dev/tutorial/tutorial.html
+    wget "https://files.clpm.dev/clpm/clpm-0.4.1-linux-amd64.tar.gz"
+    tar xf clpm-0.4.1-linux-amd64.tar.gz
+    cd clpm-0.4.1-linux-amd64 && sudo sh ./install.sh
+    # Configure asdf
+    mkdir -p ~/.config/common-lisp/source-registry.conf.d/
+    echo $(clpm client source-registry.d) > $HOME/.config/common-lisp/source-registry.conf.d/20-clpm-client.conf
+    clpm_config='(require "asdf")
+#-clpm-client
+(when (asdf:find-system "clpm-client" nil)
+  (asdf:load-system "clpm-client")
+  (when (uiop:symbol-call :clpm-client (quote #:active-context))
+    (uiop:symbol-call :clpm-client (quote #:activate-asdf-integration))))'
+    lisp_init_file="$HOME/$(cl --load $HOME/quicklisp/setup.lisp --eval '(ql-impl-util::suitable-lisp-init-file nil)' | tail -n1)"
+    echo $clpm_config
+    echo $lisp_init_file
+    cat $lisp_init_file
+    echo "$clpm_config" >> "$lisp_init_file" && echo Successfully installed clpm!
+}
+
 cd $HOME
 echo Currently in $(pwd)...
 prepare_"$LISP"
-

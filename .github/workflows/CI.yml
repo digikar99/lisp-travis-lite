@@ -42,6 +42,7 @@ jobs:
         echo $PATH
         cl --eval '(print "hello")'
         cl --eval '(ql:quickload "alexandria")'
+        cl --eval '(print (clpm-client:clpm-version))'
         cl --eval '(this-will-error)' || echo $?
         cl --eval '(this-too' || echo $?
         cl --eval '(uiop:quit 0)'
