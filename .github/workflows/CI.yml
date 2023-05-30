@@ -33,9 +33,11 @@ jobs:
       env:
         LISP: ${{ matrix.lisp }}
       run: |
+        sleep 2
         pwd
         ls -l
-        bash <(curl -s https://raw.githubusercontent.com/digikar99/lisp-travis-lite/master/run.sh)
+        python --version
+        python <(curl -s https://raw.githubusercontent.com/digikar99/lisp-travis-lite/master/run.py)
 
     - name: Run Tests
       run: |
