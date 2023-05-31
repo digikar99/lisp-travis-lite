@@ -37,7 +37,7 @@ install_cl(){
                              (declare (ignore h))
                              (trivial-backtrace:print-backtrace c)
                               (uiop:quit 1)))'" \
-                                  '"$@"' " --eval '(quit)'" >> "$cl_file"
+                                  '"$@"' " --eval '(uiop:quit)'" >> "$cl_file"
     else
         # trivial-backtrace in the January 2021 quicklisp distribution does not load on CCL
         echo Skipping trivial-backtrace
@@ -46,7 +46,7 @@ install_cl(){
                            (lambda (c h)
                              (declare (ignore c h))
                               (uiop:quit 1)))'" \
-                                  '"$@"' " --eval '(quit)'" >> "$cl_file"
+                                  '"$@"' " --eval '(uiop:quit)'" >> "$cl_file"
     fi
     chmod +x "$cl_file"
     cat "$cl_file"
