@@ -212,8 +212,8 @@ def prepare_sbcl():
 
 
 def prepare_ccl():
-	CCL = "ccl-1.12.1-linuxx86"
-	LISP_URL = "https://github.com/roswell/ccl_bin/releases/download/1.12.1/{0}.tar.gz".format(CCL)
+	CCL = "ccl-1.12.2-linuxx86"
+	LISP_URL = "https://github.com/roswell/ccl_bin/releases/download/1.12.2/{0}.tar.gz".format(CCL)
 	print("Downloading CCL from", LISP_URL)
 	if not DRY_RUN:
 		run(["wget", LISP_URL, "-O", "{0}.tar.gz".format(CCL)])
