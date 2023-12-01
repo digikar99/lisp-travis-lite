@@ -193,7 +193,7 @@ def install_clpm():
 	print("Successfully installed clpm!")
 
 def prepare_sbcl():
-	SBCL_VERSION = "2.3.1"
+	SBCL_VERSION = "2.3.11"
 	SBCL_DIR = "-".join(["sbcl", SBCL_VERSION, PLATFORM])
 	LISP_URL = "https://github.com/roswell/sbcl_bin/releases/download/{0}/{1}-binary.tar.bz2".format(
 		SBCL_VERSION, SBCL_DIR

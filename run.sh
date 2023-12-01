@@ -53,7 +53,7 @@ install_cl(){
 }
 
 prepare_sbcl(){
-    SBCL_VERSION="2.3.1"
+    SBCL_VERSION="2.3.11"
     SBCL_DIR="sbcl-$SBCL_VERSION-$PLATFORM"
     LISP_URL="https://github.com/roswell/sbcl_bin/releases/download/$SBCL_VERSION/$SBCL_DIR-binary.tar.bz2"
     echo Downloading $LISP from $LISP_URL...
