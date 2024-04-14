@@ -43,13 +43,17 @@ jobs:
         $LANG <(curl -s https://raw.githubusercontent.com/digikar99/lisp-travis-lite/master/run.$EXT)
 
 
-    - name: Run Tests
+    - name: Run Lisp
       run: |
         echo $PATH
         cl --eval '(print "hello")'
-        cl --eval '(ql:quickload "alexandria")'
-        cl --eval '(print (clpm-client:clpm-version))'
         cl --eval '(this-will-error)' || echo $?
         cl --eval '(this-too' || echo $?
         cl --eval '(uiop:quit 0)'
 
+    - name: Test quicklisp
+      run: cl --eval '(ql:quickload "alexandria")'
+
+    - name: Test clpm
+      if: matrix.lang_ext[0] == 'python'
+      run: cl --eval '(print (clpm-client:clpm-version))'
