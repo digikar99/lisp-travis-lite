@@ -7,11 +7,12 @@ jobs:
 
   test:
 
-    name: ${{ matrix.lisp }}
+    name: ${{ matrix.lisp }}, ${{ matrix.lang_ext[0] }}
 
     strategy:
       matrix:
         lisp: [sbcl, ccl, ecl, abcl]
+        lang_ext: [[python, py], [bash, sh]]
     runs-on: ubuntu-latest
 
     steps:
@@ -32,12 +33,15 @@ jobs:
     - name: Download implementation
       env:
         LISP: ${{ matrix.lisp }}
+        LANG: ${{ matrix.lang_ext[0] }}
+        EXT:  ${{ matrix.lang_ext[1] }}
       run: |
         sleep 2
         pwd
         ls -l
-        python --version
-        python <(curl -s https://raw.githubusercontent.com/digikar99/lisp-travis-lite/master/run.py)
+        $LANG --version
+        $LANG <(curl -s https://raw.githubusercontent.com/digikar99/lisp-travis-lite/master/run.$EXT)
+
 
     - name: Run Tests
       run: |
