@@ -226,8 +226,8 @@ def prepare_ccl():
 
 
 def prepare_ecl():
-	ECL_VERSION="21.2.1"
-	LISP_URL = "https://cdn.cddr.org/ci/ecl-{0}-linux-amd64.tar.gz".format(ECL_VERSION)
+	ECL_VERSION="23.9.9"
+	LISP_URL = "https://github.com/digikar99/ecl_bin/releases/download/{0}/ecl-{0}-x86-64-linux-binary.tar.gz".format(ECL_VERSION)
 	print("Downloading ECL from", LISP_URL)
 	if not DRY_RUN:
 		run(["wget", "--no-check-certificate", LISP_URL, "-O", "ecl-{0}.tar.gz".format(ECL_VERSION)])
