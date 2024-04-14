@@ -80,7 +80,7 @@ prepare_ccl(){
 }
 
 prepare_abcl(){
-    ABCL_VERSION="1.7.1" # TODO: check if already defined
+    ABCL_VERSION="1.9.2" # TODO: check if already defined
     LISP_URL="https://abcl.org/releases/$ABCL_VERSION/abcl-bin-$ABCL_VERSION.tar.gz"
     echo Downloading $LISP from $LISP_URL...
     if [ -z $DRY_RUN ] ; then

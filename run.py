@@ -240,7 +240,7 @@ def prepare_ecl():
 
 
 def prepare_abcl():
-	ABCL_VERSION="1.7.1"
+	ABCL_VERSION="1.9.2"
 	LISP_URL="https://abcl.org/releases/{0}/abcl-bin-{0}.tar.gz".format(ABCL_VERSION)
 	print("Downloading ABCL from", LISP_URL)
 	if not DRY_RUN:
