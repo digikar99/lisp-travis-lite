@@ -93,7 +93,7 @@ prepare_abcl(){
 
 prepare_ecl(){
     ECL_VERSION="23.9.9"
-    LISP_URL="https://github.com/digikar99/ecl_bin/releases/download/$ECL_VERSION23.9.9/ecl-$ECL_VERSION-x86-64-linux-binary.tar.gz"
+    LISP_URL="https://github.com/digikar99/ecl_bin/releases/download/$ECL_VERSION/ecl-$ECL_VERSION-x86-64-linux-binary.tar.gz"
     echo Downloading $LISP from $LISP_URL...
     if [ -z $DRY_RUN ] ; then
         wget --no-check-certificate "$LISP_URL" -O "ecl-$ECL_VERSION.tar.gz"
