@@ -10,7 +10,18 @@
 # Implementations should support --eval and --load arguments
 
 DRY_RUN=$1 # dry run if at least one argument is supplied
-PLATFORM="x86-64-linux"
+
+case $OS in
+    "ubuntu*")
+        PLATFORM="x86-64-linux"
+        ;;
+    "macos-11" | "macos-12" | "macos-13")
+        PLATFORM="x86-64-darwin"
+        ;;
+    "macos*")
+        PLATFORM="arm64-darwin"
+        ;;
+esac
 
 install_cl(){
     mkdir "$HOME/bin"

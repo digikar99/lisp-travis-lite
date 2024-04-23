@@ -15,8 +15,17 @@ from subprocess import run
 LISP = os.getenv("LISP").lower()
 HOME = os.getenv("HOME")
 PATH = os.getenv("PATH")
+OS = os.getenv("OS")
 DRY_RUN  = (False if os.getenv("DRY_RUN") is None else True)
-PLATFORM = "x86-64-linux"
+if OS.startswith("ubuntu"):
+	PLATFORM = "x86-64-linux"
+else if OS in ["macos-11", "macos-12", "macos-13"]:
+	PLATFORM = "x86-64-darwin"
+else if OS.startswith("macos"):
+	PLATFORM = "arm64-darwin"
+else:
+	raise Exception("Unknown OS: " + OS)
+
 IGNORE_BACKTRACE = (False if os.getenv("IGNORE_BACKTRACE") is None else True)
 
 LISP_INIT_FILE = {
