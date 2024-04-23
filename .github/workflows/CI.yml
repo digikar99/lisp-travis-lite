@@ -15,7 +15,6 @@ jobs:
         lang_ext: [[python, py], [bash, sh]]
         os: [ubuntu-latest, macos-latest]
         exclude:
-          - lang_ext: [python, py]
           - lisp: ccl
             os: macos-latest
           - lisp: ecl
