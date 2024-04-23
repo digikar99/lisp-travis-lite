@@ -71,16 +71,26 @@ install_cl(){
 
 prepare_sbcl(){
     SBCL_VERSION="2.3.11"
-    SBCL_DIR="sbcl-$SBCL_VERSION-$PLATFORM"
-    LISP_URL="https://github.com/roswell/sbcl_bin/releases/download/$SBCL_VERSION/$SBCL_DIR-binary.tar.bz2"
-    echo Downloading $LISP from $LISP_URL...
-    if [ -z $DRY_RUN ] ; then
-        wget "$LISP_URL" -O "$SBCL_DIR.tar.bz2"
-        tar -xf "$SBCL_DIR.tar.bz2"
-        ls -l "$SBCL_DIR"
-    fi
-    echo Downloaded
-    install_cl "bash $PWD/$SBCL_DIR/run-sbcl.sh --dynamic-space-size 4096"
+    echo "Installing SBCL on " $OS
+    case $OS in
+        ubuntu* | macos-11 | macos-12 | macos-13)
+            SBCL_DIR="sbcl-$SBCL_VERSION-$PLATFORM"
+            LISP_URL="https://github.com/roswell/sbcl_bin/releases/download/$SBCL_VERSION/$SBCL_DIR-binary.tar.bz2"
+            echo Downloading $LISP from $LISP_URL...
+            if [ -z $DRY_RUN ] ; then
+                wget "$LISP_URL" -O "$SBCL_DIR.tar.bz2"
+                tar -xf "$SBCL_DIR.tar.bz2"
+                ls -l "$SBCL_DIR"
+            fi
+            echo Downloaded
+            install_cl "bash $PWD/$SBCL_DIR/run-sbcl.sh --dynamic-space-size 4096"
+            ;;
+        macos*)
+            brew install bash
+            brew install sbcl@"$SBCL_VERSION"
+            install_cl "bash $(which sbcl) --dynamic-space-size 2048"
+            ;;
+    esac
 }
 
 prepare_ccl(){
