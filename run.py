@@ -163,11 +163,22 @@ def install_clpm():
 
 	# Download CLPM
 	os.chdir(HOME)
-	run(["wget", "https://files.clpm.dev/clpm/clpm-0.4.1-linux-amd64.tar.gz"], check=True)
-	run(["tar", "xf", "clpm-0.4.1-linux-amd64.tar.gz"], check=True)
+	if OS.startswith("ubuntu"):
+		clpm_platform = "linux-amd64"
+	elif OS in ["macos-11", "macos-12", "macos-13"]:
+		clpm_platform = "darwin-amd64"
+	elif OS.startswith("macos"):
+		clpm_platform = "darwin-arm64"
+	else:
+		raise Exception("Unknown OS: " + OS)
+
+	clpm_dir = "clpm-0.4.1-{}".format(clpm_platform)
+	clpm_tar = "{}.tar.gz".format(clpm_dir)
+	run(["wget", "https://files.clpm.dev/clpm/{}".format(clpm_tar)], check=True)
+	run(["tar", "xf", clpm_tar], check=True)
 
 	# Setup CLPM
-	os.chdir("clpm-0.4.1-linux-amd64")
+	os.chdir(clpm_dir)
 	run(["sudo", "sh", "./install.sh"], check=True)
 
 	# Setup ASDF to find CLPM
