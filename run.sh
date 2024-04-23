@@ -88,7 +88,7 @@ prepare_sbcl(){
         macos*)
             brew install bash
             brew install sbcl
-            install_cl "bash $(which sbcl) --dynamic-space-size 2048"
+            install_cl "$(which sbcl) --dynamic-space-size 2048"
             ;;
     esac
 }
