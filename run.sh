@@ -70,7 +70,7 @@ install_cl(){
 }
 
 prepare_sbcl(){
-    SBCL_VERSION="2.3.11"
+    SBCL_VERSION="2.4.3"
     echo "Installing SBCL on " $OS
     case $OS in
         ubuntu* | macos-11 | macos-12 | macos-13)
