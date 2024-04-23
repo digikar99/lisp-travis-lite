@@ -205,22 +205,27 @@ def install_clpm():
 	print("Successfully installed clpm!")
 
 def prepare_sbcl():
-	SBCL_VERSION = "2.3.11"
-	SBCL_DIR = "-".join(["sbcl", SBCL_VERSION, PLATFORM])
-	LISP_URL = "https://github.com/roswell/sbcl_bin/releases/download/{0}/{1}-binary.tar.bz2".format(
-		SBCL_VERSION, SBCL_DIR
-	)
-	print("Downloading {0} from {1}...".format(LISP, LISP_URL))
-	if not DRY_RUN:
-		run(["wget", LISP_URL, "-O", "{0}.tar.bz2".format(SBCL_DIR)])
-		run(["tar", "-xf", "{0}.tar.bz2".format(SBCL_DIR)])
-		run(["ls", "-l", SBCL_DIR])
-	print("Done.")
-	install_cl("bash {0}/{1}/run-sbcl.sh --dynamic-space-size 4096".format(
-		os.getcwd(),
-		SBCL_DIR
-	))
-
+	SBCL_VERSION = "2.4.3"
+	if OS.startswith("ubuntu"):
+		SBCL_DIR = "-".join(["sbcl", SBCL_VERSION, PLATFORM])
+		LISP_URL = "https://github.com/roswell/sbcl_bin/releases/download/{0}/{1}-binary.tar.bz2".format(
+			SBCL_VERSION, SBCL_DIR
+		)
+		print("Downloading {0} from {1}...".format(LISP, LISP_URL))
+		if not DRY_RUN:
+			run(["wget", LISP_URL, "-O", "{0}.tar.bz2".format(SBCL_DIR)])
+			run(["tar", "-xf", "{0}.tar.bz2".format(SBCL_DIR)])
+			run(["ls", "-l", SBCL_DIR])
+		print("Done.")
+		install_cl("bash {0}/{1}/run-sbcl.sh --dynamic-space-size 4096".format(
+			os.getcwd(),
+			SBCL_DIR
+		))
+	elif OS.startswith("macos"):
+		run(["brew", "install", "sbcl"])
+		install_cl("{0} --dynamic-space-size 4096".format(
+			run(["which", "sbcl"], capture_output=True).stdout.decode().strip()
+		))
 
 
 def prepare_ccl():
