@@ -19,9 +19,9 @@ OS = os.getenv("OS")
 DRY_RUN  = (False if os.getenv("DRY_RUN") is None else True)
 if OS.startswith("ubuntu"):
 	PLATFORM = "x86-64-linux"
-else if OS in ["macos-11", "macos-12", "macos-13"]:
+elif OS in ["macos-11", "macos-12", "macos-13"]:
 	PLATFORM = "x86-64-darwin"
-else if OS.startswith("macos"):
+elif OS.startswith("macos"):
 	PLATFORM = "arm64-darwin"
 else:
 	raise Exception("Unknown OS: " + OS)
