@@ -12,11 +12,17 @@
 DRY_RUN=$1 # dry run if at least one argument is supplied
 
 case $OS in
-    ubuntu*) PLATFORM="x86-64-linux"
+    ubuntu*)
+        PLATFORM="x86-64-linux"
+        CCL_PLATFORM="linuxx86"
         ;;
-    macos-11 | macos-12 | macos-13) PLATFORM="x86-64-darwin"
+    macos-11 | macos-12 | macos-13)
+        PLATFORM="x86-64-darwin"
+        CCL_PLATFORM="darwinx86"
         ;;
-    macos*) PLATFORM="arm64-darwin"
+    macos*)
+        PLATFORM="arm64-darwin"
+        CCL_PLATFORM="darwinarm"
         ;;
     *) echo "Unknown OS: " $OS
        exit 1
@@ -78,7 +84,7 @@ prepare_sbcl(){
 }
 
 prepare_ccl(){
-    CCL="ccl-1.12.2-linuxx86"
+    CCL="ccl-1.12.2-$CCL_PLATFORM"
     LISP_URL="https://github.com/roswell/ccl_bin/releases/download/1.12.2/$CCL.tar.gz"
     echo Downloading $LISP from $LISP_URL...
     if [ -z $DRY_RUN ] ; then

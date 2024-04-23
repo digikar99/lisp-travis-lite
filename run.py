@@ -19,10 +19,13 @@ OS = os.getenv("OS")
 DRY_RUN  = (False if os.getenv("DRY_RUN") is None else True)
 if OS.startswith("ubuntu"):
 	PLATFORM = "x86-64-linux"
+	CCL_PLATFORM = "linuxx86"
 elif OS in ["macos-11", "macos-12", "macos-13"]:
 	PLATFORM = "x86-64-darwin"
+	CCL_PLATFORM = "darwinx86"
 elif OS.startswith("macos"):
 	PLATFORM = "arm64-darwin"
+	CCL_PLATFORM = "darwinarm"
 else:
 	raise Exception("Unknown OS: " + OS)
 
@@ -221,7 +224,7 @@ def prepare_sbcl():
 
 
 def prepare_ccl():
-	CCL = "ccl-1.12.2-linuxx86"
+	CCL = "ccl-1.12.2-{}".format(CCL_PLATFORM)
 	LISP_URL = "https://github.com/roswell/ccl_bin/releases/download/1.12.2/{0}.tar.gz".format(CCL)
 	print("Downloading CCL from", LISP_URL)
 	if not DRY_RUN:
