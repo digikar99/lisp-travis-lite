@@ -12,13 +12,14 @@
 DRY_RUN=$1 # dry run if at least one argument is supplied
 
 case $OS in
-    "ubuntu*") PLATFORM="x86-64-linux"
+    ubuntu*) PLATFORM="x86-64-linux"
         ;;
-    "macos-11" | "macos-12" | "macos-13") PLATFORM="x86-64-darwin"
+    macos-11 | macos-12 | macos-13) PLATFORM="x86-64-darwin"
         ;;
-    "macos*") PLATFORM="arm64-darwin"
+    macos*) PLATFORM="arm64-darwin"
         ;;
     *) echo "Unknown OS: " $OS
+       exit 1
        ;;
 esac
 
