@@ -13,7 +13,7 @@ jobs:
       matrix:
         lisp: [sbcl, ccl, ecl, abcl]
         lang_ext: [[python, py], [bash, sh]]
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest]
         exclude:
           - lisp: ecl
             os: macos-latest
