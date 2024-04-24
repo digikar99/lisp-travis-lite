@@ -217,12 +217,12 @@ def install_clpm():
 
 def prepare_sbcl():
 	SBCL_VERSION = "2.4.3"
-	if OS == "macos-14":
+	if OS.startswith("macos"):
 		run(["brew", "install", "sbcl"])
 		install_cl("{0} --dynamic-space-size 4096".format(
 			run(["which", "sbcl"], capture_output=True).stdout.decode().strip()
 		))
-	elif OS.startswith("ubuntu") or OS.startswith("macos"):
+	elif OS.startswith("ubuntu"):
 		SBCL_DIR = "-".join(["sbcl", SBCL_VERSION, PLATFORM])
 		LISP_URL = "https://github.com/roswell/sbcl_bin/releases/download/{0}/{1}-binary.tar.bz2".format(
 			SBCL_VERSION, SBCL_DIR
