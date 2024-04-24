@@ -12,17 +12,17 @@
 DRY_RUN=$1 # dry run if at least one argument is supplied
 
 case $OS in
+    macos-14)
+        PLATFORM="arm64-darwin"
+        CCL_PLATFORM="darwinarm"
+        ;;
     ubuntu*)
         PLATFORM="x86-64-linux"
         CCL_PLATFORM="linuxx86"
         ;;
-    macos-11 | macos-12 | macos-13)
+    macos*)
         PLATFORM="x86-64-darwin"
         CCL_PLATFORM="darwinx86"
-        ;;
-    macos*)
-        PLATFORM="arm64-darwin"
-        CCL_PLATFORM="darwinarm"
         ;;
     *) echo "Unknown OS: " $OS
        exit 1
@@ -73,7 +73,11 @@ prepare_sbcl(){
     SBCL_VERSION="2.4.3"
     echo "Installing SBCL on " $OS
     case $OS in
-        ubuntu* | macos-11 | macos-12 | macos-13)
+        macos-14)
+            brew install sbcl
+            install_cl "$(which sbcl) --dynamic-space-size 2048"
+            ;;
+        ubuntu* | macos*)
             SBCL_DIR="sbcl-$SBCL_VERSION-$PLATFORM"
             LISP_URL="https://github.com/roswell/sbcl_bin/releases/download/$SBCL_VERSION/$SBCL_DIR-binary.tar.bz2"
             echo Downloading $LISP from $LISP_URL...
@@ -84,11 +88,6 @@ prepare_sbcl(){
             fi
             echo Downloaded
             install_cl "bash $PWD/$SBCL_DIR/run-sbcl.sh --dynamic-space-size 4096"
-            ;;
-        macos*)
-            brew install bash
-            brew install sbcl
-            install_cl "$(which sbcl) --dynamic-space-size 2048"
             ;;
     esac
 }

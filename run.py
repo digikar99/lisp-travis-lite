@@ -17,15 +17,15 @@ HOME = os.getenv("HOME")
 PATH = os.getenv("PATH")
 OS = os.getenv("OS")
 DRY_RUN  = (False if os.getenv("DRY_RUN") is None else True)
-if OS.startswith("ubuntu"):
-	PLATFORM = "x86-64-linux"
-	CCL_PLATFORM = "linuxx86"
-elif OS in ["macos-11", "macos-12", "macos-13"]:
-	PLATFORM = "x86-64-darwin"
-	CCL_PLATFORM = "darwinx86"
-elif OS.startswith("macos"):
+if OS=="macos-14":
 	PLATFORM = "arm64-darwin"
 	CCL_PLATFORM = "darwinarm"
+elif OS.startswith("ubuntu"):
+	PLATFORM = "x86-64-linux"
+	CCL_PLATFORM = "linuxx86"
+elif OS.startswith("macos"):
+	PLATFORM = "x86-64-darwin"
+	CCL_PLATFORM = "darwinx86"
 else:
 	raise Exception("Unknown OS: " + OS)
 
@@ -217,7 +217,12 @@ def install_clpm():
 
 def prepare_sbcl():
 	SBCL_VERSION = "2.4.3"
-	if OS.startswith("ubuntu"):
+	if OS == "macos-14":
+		run(["brew", "install", "sbcl"])
+		install_cl("{0} --dynamic-space-size 4096".format(
+			run(["which", "sbcl"], capture_output=True).stdout.decode().strip()
+		))
+	elif OS.startswith("ubuntu") or OS.startswith("macos"):
 		SBCL_DIR = "-".join(["sbcl", SBCL_VERSION, PLATFORM])
 		LISP_URL = "https://github.com/roswell/sbcl_bin/releases/download/{0}/{1}-binary.tar.bz2".format(
 			SBCL_VERSION, SBCL_DIR
@@ -232,12 +237,6 @@ def prepare_sbcl():
 			os.getcwd(),
 			SBCL_DIR
 		))
-	elif OS.startswith("macos"):
-		run(["brew", "install", "sbcl"])
-		install_cl("{0} --dynamic-space-size 4096".format(
-			run(["which", "sbcl"], capture_output=True).stdout.decode().strip()
-		))
-
 
 def prepare_ccl():
 	CCL = "ccl-1.12.2-{}".format(CCL_PLATFORM)
