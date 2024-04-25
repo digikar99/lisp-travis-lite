@@ -75,7 +75,7 @@ prepare_sbcl(){
     case $OS in
         macos*)
             brew install sbcl
-            install_cl "$(which sbcl) --dynamic-space-size 2560"
+            install_cl "$(which sbcl) --dynamic-space-size 4096"
             ;;
         ubuntu*)
             SBCL_DIR="sbcl-$SBCL_VERSION-$PLATFORM"
