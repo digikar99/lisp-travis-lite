@@ -219,7 +219,7 @@ def prepare_sbcl():
 	SBCL_VERSION = "2.4.3"
 	if OS.startswith("macos"):
 		run(["brew", "install", "sbcl"])
-		install_cl("{0} --dynamic-space-size 4096".format(
+		install_cl("{0} --dynamic-space-size 2560".format(
 			run(["which", "sbcl"], capture_output=True).stdout.decode().strip()
 		))
 	elif OS.startswith("ubuntu"):
