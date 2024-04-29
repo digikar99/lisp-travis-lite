@@ -11,7 +11,7 @@
 
 DRY_RUN=$1 # dry run if at least one argument is supplied
 
-if [ -z $SBCL_DYNAMIC_SPACE_SIZE ]; then
+if [ -z ${SBCL_DYNAMIC_SPACE_SIZE} ]; then
     SBCL_DYNAMIC_SPACE_SIZE=4096
 fi
 
