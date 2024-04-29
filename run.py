@@ -29,8 +29,6 @@ elif OS.startswith("macos"):
 else:
 	raise Exception("Unknown OS: " + OS)
 
-IGNORE_BACKTRACE = (False if os.getenv("IGNORE_BACKTRACE") is None else True)
-
 if os.getenv("SBCL_DYNAMIC_SPACE_SIZE") is None:
 	SBCL_DYNAMIC_SPACE_SIZE = 4096
 else:
@@ -91,31 +89,17 @@ def install_cl(cl_command):
 	# Part 4: Print backtrace and ensure quitting
 	with open(cl_file, "w") as cl:
 		cl.write("#!/bin/bash\n")
-		if IGNORE_BACKTRACE:
-			cl.write(
-				" ".join([
-					cl_command,
-					"--load", HOME+"/quicklisp/setup.lisp",
-					"--eval", """'(setf *debugger-hook*
-										(lambda (c h)
-										  (declare (ignore c h))
-										  (uiop:quit 1)))'""",
-					'"$@"', "--eval", "'(quit)'"])
-			)
-		else:
-			print("Avoiding trivial-backtrace...")
-			cl.write(
-				" ".join([
-					cl_command,
-					"--load", HOME+"/quicklisp/setup.lisp",
-					"--eval", '\'(ql:quickload "trivial-backtrace" :silent t)\'',
-					"--eval", """'(setf *debugger-hook*
+		cl.write(
+			" ".join([
+				cl_command,
+				"--load", HOME+"/quicklisp/setup.lisp",
+				"--eval", """'(setf *debugger-hook*
 										(lambda (c h)
 										  (declare (ignore h))
-										  (trivial-backtrace:print-backtrace c)
+										  (uiop:print-condition-backatrace c)
 										  (uiop:quit 1)))'""",
-					'"$@"', "--eval", "'(quit)'"])
-			)
+				'"$@"', "--eval", "'(quit)'"])
+		)
 	os.chmod(cl_file, 0o777)
 	print("Executable", cl_file, "?", os.access(cl_file, os.X_OK))
 	print("Readable", cl_file, "?", os.access(cl_file, os.R_OK))
