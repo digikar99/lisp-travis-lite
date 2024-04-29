@@ -11,6 +11,10 @@
 
 DRY_RUN=$1 # dry run if at least one argument is supplied
 
+if [ -z $SBCL_DYNAMIC_SPACE_SIZE ]; then
+    SBCL_DYNAMIC_SPACE_SIZE=4096
+fi
+
 case $OS in
     macos-14)
         PLATFORM="arm64-darwin"
@@ -75,7 +79,7 @@ prepare_sbcl(){
     case $OS in
         macos*)
             brew install sbcl
-            install_cl "$(which sbcl) --dynamic-space-size 4096"
+            install_cl "$(which sbcl) --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
             ;;
         ubuntu*)
             SBCL_DIR="sbcl-$SBCL_VERSION-$PLATFORM"
@@ -87,7 +91,7 @@ prepare_sbcl(){
                 ls -l "$SBCL_DIR"
             fi
             echo Downloaded
-            install_cl "bash $PWD/$SBCL_DIR/run-sbcl.sh --dynamic-space-size 4096"
+            install_cl "bash $PWD/$SBCL_DIR/run-sbcl.sh --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
             ;;
     esac
 }

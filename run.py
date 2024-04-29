@@ -31,6 +31,11 @@ else:
 
 IGNORE_BACKTRACE = (False if os.getenv("IGNORE_BACKTRACE") is None else True)
 
+if os.getenv("SBCL_DYNAMIC_SPACE_SIZE") is None:
+	SBCL_DYNAMIC_SPACE_SIZE = 4096
+else:
+	SBCL_DYNAMIC_SPACE_SIZE = os.getenv("SBCL_DYNAMIC_SPACE_SIZE")
+
 LISP_INIT_FILE = {
 	"sbcl": ".sbclrc",
 	"ccl" : ".ccl-init.lisp",
@@ -219,8 +224,9 @@ def prepare_sbcl():
 	SBCL_VERSION = "2.4.3"
 	if OS.startswith("macos"):
 		run(["brew", "install", "sbcl"])
-		install_cl("{0} --dynamic-space-size 4096".format(
-			run(["which", "sbcl"], capture_output=True).stdout.decode().strip()
+		install_cl("{0} --dynamic-space-size {1}".format(
+			run(["which", "sbcl"], capture_output=True).stdout.decode().strip(),
+			SBCL_DYNAMIC_SPACE_SIZE
 		))
 	elif OS.startswith("ubuntu"):
 		SBCL_DIR = "-".join(["sbcl", SBCL_VERSION, PLATFORM])
@@ -233,9 +239,10 @@ def prepare_sbcl():
 			run(["tar", "-xf", "{0}.tar.bz2".format(SBCL_DIR)])
 			run(["ls", "-l", SBCL_DIR])
 		print("Done.")
-		install_cl("bash {0}/{1}/run-sbcl.sh --dynamic-space-size 4096".format(
+		install_cl("bash {0}/{1}/run-sbcl.sh --dynamic-space-size {2}".format(
 			os.getcwd(),
-			SBCL_DIR
+			SBCL_DIR,
+			SBCL_DYNAMIC_SPACE_SIZE
 		))
 
 def prepare_ccl():
