@@ -15,6 +15,10 @@ if [ -z ${SBCL_DYNAMIC_SPACE_SIZE} ]; then
     SBCL_DYNAMIC_SPACE_SIZE=4096
 fi
 
+if [ -n "$TRAVIS" ]; then
+    OS="$dist"
+fi
+
 case $OS in
     macos-14)
         PLATFORM="arm64-darwin"

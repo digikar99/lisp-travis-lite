@@ -3,6 +3,8 @@ LISP:
   - ccl
 OS:
   - linux
+dist:
+  - ubuntu-22.04
 
 install:
   - echo $PWD
