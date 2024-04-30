@@ -16,26 +16,36 @@ if [ -z ${SBCL_DYNAMIC_SPACE_SIZE} ]; then
 fi
 
 if [ -n "$TRAVIS" ]; then
-    OS="$dist"
+    case $OS in
+        linux)
+            PLATFORM="x86-64-$OS"
+            CCL_PLATFORM="linuxx86"
+            ;;
+        *)
+            echo "Unhandled OS: ": $OS
+            exit 1
+            ;;
+    esac
+else
+    case $OS in
+        macos-14)
+            PLATFORM="arm64-darwin"
+            CCL_PLATFORM="darwinarm"
+            ;;
+        ubuntu*)
+            PLATFORM="x86-64-linux"
+            CCL_PLATFORM="linuxx86"
+            ;;
+        macos*)
+            PLATFORM="x86-64-darwin"
+            CCL_PLATFORM="darwinx86"
+            ;;
+        *) echo "Unknown OS: " $OS
+           exit 1
+           ;;
+    esac
 fi
 
-case $OS in
-    macos-14)
-        PLATFORM="arm64-darwin"
-        CCL_PLATFORM="darwinarm"
-        ;;
-    ubuntu*)
-        PLATFORM="x86-64-linux"
-        CCL_PLATFORM="linuxx86"
-        ;;
-    macos*)
-        PLATFORM="x86-64-darwin"
-        CCL_PLATFORM="darwinx86"
-        ;;
-    *) echo "Unknown OS: " $OS
-       exit 1
-       ;;
-esac
 
 install_cl(){
     mkdir "$HOME/bin"
