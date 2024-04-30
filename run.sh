@@ -77,13 +77,13 @@ install_cl(){
 
 prepare_sbcl(){
     SBCL_VERSION="2.4.3"
-    echo "Installing SBCL on " $OS
-    case $OS in
-        macos*)
+    echo "Installing SBCL on " $PLATFORM
+    case $PLATFORM in
+        *darwin)
             brew install sbcl
             install_cl "$(which sbcl) --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
             ;;
-        ubuntu*)
+        *linux)
             SBCL_DIR="sbcl-$SBCL_VERSION-$PLATFORM"
             LISP_URL="https://github.com/roswell/sbcl_bin/releases/download/$SBCL_VERSION/$SBCL_DIR-binary.tar.bz2"
             echo Downloading $LISP from $LISP_URL...
