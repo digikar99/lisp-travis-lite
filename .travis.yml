@@ -1,7 +1,8 @@
-env:
-  matrix:
-    - LISP=sbcl
-    - LISP=ccl
+LISP:
+  - sbcl
+  - ccl
+OS:
+  - linux
 
 install:
   - echo $PWD
