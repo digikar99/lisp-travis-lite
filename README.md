@@ -4,7 +4,7 @@
 
 Agreeing with Keen, the core developer behind CIM, I'm also maintaining a run.py, which should hopefully turn out easier to maintain.
 
-roswell is another alternative - and I'm using roswell binaries below! Hopefully, this repository is easier to maintain than roswell for the common implementations used below.
+roswell is another alternative - and I'm using roswell binaries below! Hopefully, this repository is easier to maintain than roswell for the common implementations used below. Also, roswell is much slower than cl-travis. lisp-travis-lite aims to provide the speed of cl-travis: near instant installs.
 
 ## Support Matrix
 

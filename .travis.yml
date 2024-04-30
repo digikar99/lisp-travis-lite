@@ -1,12 +1,11 @@
 language: generic
 
 os: linux
-dist: jammy
 arch: arm64
+dist: jammy
 
 env:
   - LISP: sbcl
-  - LISP: ccl
 
 install:
   - echo $PWD
@@ -15,6 +14,7 @@ install:
 
 script:
   - echo $PATH
+
   - cl --eval '(print "hello")'
   - cl --eval '(ql:quickload "alexandria")'
   - cl --eval '(this-will-error)' || echo $?
