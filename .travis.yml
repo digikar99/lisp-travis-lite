@@ -7,9 +7,8 @@ arch:
   - arm64
 
 env:
-  LISP:
-    - sbcl
-    - ccl
+  - LISP: sbcl
+  - LISP: ccl
 
 install:
   - echo $PWD
