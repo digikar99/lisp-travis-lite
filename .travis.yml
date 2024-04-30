@@ -3,6 +3,9 @@ language: generic
 os:
   - linux
 
+arch:
+  - arm64
+
 env:
   LISP:
     - sbcl

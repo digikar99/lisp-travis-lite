@@ -15,11 +15,23 @@ if [ -z ${SBCL_DYNAMIC_SPACE_SIZE} ]; then
     SBCL_DYNAMIC_SPACE_SIZE=4096
 fi
 
+case $(uname -m) in
+    x86_64) ARCH="x86-64" ;;
+    arm64|aarch64) ARCH="arm64";;
+    *) ARCH=$(uname -m) ;;
+esac
+
 if [ -n "$TRAVIS" ]; then
     case $TRAVIS_OS_NAME in
         linux)
-            PLATFORM="x86-64-linux"
-            CCL_PLATFORM="linuxx86"
+            PLATFORM="$ARCH-linux"
+            case $ARCH in
+                x86-64) CCL_PLATFORM="linuxx86" ;;
+                arm64|aarch64) CCL_PLATFORM="linuxarm" ;;
+            esac
+            ;;
+        osx)
+            # Do Nothing; let it brew
             ;;
         *)
             echo "Unhandled OS: ": $os
@@ -33,11 +45,11 @@ else
             CCL_PLATFORM="darwinarm"
             ;;
         ubuntu*)
-            PLATFORM="x86-64-linux"
+            PLATFORM="$ARCH-linux"
             CCL_PLATFORM="linuxx86"
             ;;
         macos*)
-            PLATFORM="x86-64-darwin"
+            PLATFORM="$ARCH-darwin"
             CCL_PLATFORM="darwinx86"
             ;;
         *) echo "Unknown OS: " $OS
@@ -125,7 +137,7 @@ prepare_abcl(){
 
 prepare_ecl(){
     ECL_VERSION="23.9.9"
-    LISP_URL="https://github.com/digikar99/ecl_bin/releases/download/$ECL_VERSION/ecl-$ECL_VERSION-x86-64-linux-binary.tar.gz"
+    LISP_URL="https://github.com/digikar99/ecl_bin/releases/download/$ECL_VERSION/ecl-$ECL_VERSION-$ARCH-linux-binary.tar.gz"
     echo Downloading $LISP from $LISP_URL...
     if [ -z $DRY_RUN ] ; then
         wget --no-check-certificate "$LISP_URL" -O "ecl-$ECL_VERSION.tar.gz"
