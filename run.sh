@@ -122,7 +122,10 @@ prepare_ccl(){
                 ls -l
             fi
             echo Downloaded
-            install_cl "$PWD/ccl/lx86cl64"
+            case $ARCH in
+                x86-64) install_cl "$PWD/ccl/lx86cl64" ;;
+                arm64) install_cl "$PWD/ccl/armcl" ;;
+            esac
             ;;
         *darwin)
             brew install clozure-cl
