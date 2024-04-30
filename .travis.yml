@@ -1,11 +1,7 @@
-language: common-lisp
-
 env:
   matrix:
     - LISP=sbcl
-    - LISP=abcl
     - LISP=ccl
-    - LISP=ecl
 
 install:
   - echo $PWD
