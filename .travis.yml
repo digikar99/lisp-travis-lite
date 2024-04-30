@@ -1,10 +1,8 @@
 language: generic
 
-os:
-  - linux
-
-arch:
-  - arm64
+os: linux
+dist: jammy
+arch: arm64
 
 env:
   - LISP: sbcl
