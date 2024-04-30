@@ -16,13 +16,13 @@ if [ -z ${SBCL_DYNAMIC_SPACE_SIZE} ]; then
 fi
 
 if [ -n "$TRAVIS" ]; then
-    case $OS in
+    case $os in
         linux)
-            PLATFORM="x86-64-$OS"
+            PLATFORM="x86-64-linux"
             CCL_PLATFORM="linuxx86"
             ;;
         *)
-            echo "Unhandled OS: ": $OS
+            echo "Unhandled OS: ": $os
             exit 1
             ;;
     esac

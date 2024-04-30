@@ -1,7 +1,9 @@
+language: generic
+
 LISP:
   - sbcl
   - ccl
-OS:
+os:
   - linux
 
 install:
