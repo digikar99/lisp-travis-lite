@@ -1,19 +1,56 @@
 # Motivation
 
-While using CI for [py4cl2](https://github.com/digikar99/py4cl2), over the span of a year, I encountered about 2-3 breakages that effectively consumed my 4-5 working days. Initially, CI was set up for only SBCL and CCL using cl-travis. However, at some point, a newer version of CCL was required - therefore, ROS was used. ROS turned out to be very slow for ECL.
+[cl-travis](https://github.com/lispci/cl-travis) depends on [cim](https://github.com/sionescu/CIM) which is [no longer supported](https://keens.github.io/blog/2017/01/29/deprecating_cim/). In addition, I personally found cl-travis more complex than necessary. So, here's another attempt at a lighter version of it.
 
-Even as of my current writing, [numcl is still failing over SBCL brought from cl-travis](https://travis-ci.org/github/digikar99/py4cl2/jobs/733744556). In fact, numcl and Java-ABCL compatibility have been the two major pain points. numcl loads good on my local system; so does ABCL with Java version 8.
+Agreeing with Keen, the core developer behind CIM, I'm also maintaining a run.py, which should hopefully turn out easier to maintain.
 
-## Should I use lisp-travis-lite?
+roswell is another alternative - and I'm using roswell binaries below! Hopefully, this repository is easier to maintain than roswell for the common implementations used below.
 
-If ROS or cl-travis can get your job done well, go with them! If not, either raise an issue here, or fork/local-copy this and use for your own purposes.
+## Support Matrix
 
-The system itself is incredibly simple, and solely depends on 
+### run.sh
 
-- [sbcl-images](https://github.com/digikar99/sbcl-images)
-- [ccl-images](https://github.com/digikar99/ccl-images)
-- ABCL jar files 
-- Packaged ECL, courtesy of https://cdn.cddr.org/
+Only quicklisp. No clpm.
 
-No CIM. Nothing heavy like ROS. Of course, that "lite"ness gets you no support for Windows, or anything else beyond linux-x64-(sbcl/ccl/abcl/ecl) in fact!
+TODO: Enable ecl for macosx
+
+| Impl \ OS (arch) | linux (x86\_64) | linux (arm64) | macosx (x86\_64) | macosx (arm64) |
+|------------------|-----------------|---------------|------------------|----------------|
+| sbcl             | ✓               | ✓             | ✓                | ✓              |
+| ccl              | ✓               | ✗             | ✗                | ✗              |
+| ecl              | ✓               | ✗             | ✗                | ✗              |
+| abcl             | ✓               | ✗             | ✗                | ✗              |
+
+### run.py
+
+Both quicklisp and clpm, except on abcl.
+
+TODO: Port arm64 support to CCL.
+
+| Impl \ OS (arch) | linux (x86\_64) | linux (arm64) | macosx (x86\_64) | macosx (arm64) |
+|------------------|-----------------|---------------|------------------|----------------|
+| sbcl             | ✓               | ✗             | ✓                | ✓              |
+| ccl              | ✓               | ✗             | ✗                | ✗              |
+| ecl              | ✓               | ✗             | ✗                | ✗              |
+| abcl             | ✓               | ✗             | ✗                | ✗              |
+
+
+## Dependencies
+
+Common:
+
+- quicklisp
+- If you are using run.py: clpm
+- ecl_bin
+- abcl repositories
+
+Linux:
+
+- roswell binaries for sbcl and ccl
+- wget
+
+MacOS:
+
+- brew
+- wget
 
