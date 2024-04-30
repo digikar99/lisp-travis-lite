@@ -96,7 +96,7 @@ def install_cl(cl_command):
 				"--eval", """'(setf *debugger-hook*
 										(lambda (c h)
 										  (declare (ignore h))
-										  (uiop:print-condition-backatrace c)
+										  (uiop:print-condition-backtrace c)
 										  (uiop:quit 1)))'""",
 				'"$@"', "--eval", "'(quit)'"])
 		)
