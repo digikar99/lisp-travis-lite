@@ -16,7 +16,7 @@ if [ -z ${SBCL_DYNAMIC_SPACE_SIZE} ]; then
 fi
 
 if [ -n "$TRAVIS" ]; then
-    case $os in
+    case $TRAVIS_OS_NAME in
         linux)
             PLATFORM="x86-64-linux"
             CCL_PLATFORM="linuxx86"

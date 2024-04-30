@@ -1,10 +1,12 @@
 language: generic
 
-LISP:
-  - sbcl
-  - ccl
 os:
   - linux
+
+env:
+  LISP:
+    - sbcl
+    - ccl
 
 install:
   - echo $PWD
