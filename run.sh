@@ -119,7 +119,7 @@ prepare_ccl(){
             if [ -z $DRY_RUN ] ; then
                 wget "$LISP_URL" -O $CCL.tar.gz
                 tar -xzf "$CCL.tar.gz"
-                ls -l
+                ls -l ccl*
             fi
             echo Downloaded
             case $ARCH in
