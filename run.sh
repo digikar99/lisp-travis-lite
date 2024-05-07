@@ -32,6 +32,7 @@ if [ -n "$TRAVIS" ]; then
             ;;
         osx)
             # Do Nothing; let it brew
+            PLATFORM="darwin"
             ;;
         *)
             echo "Unhandled OS: ": $os
