@@ -1,4 +1,4 @@
-#!/bin/bash
+
 
 # Should install $LISP
 # Should output $LISP --version
@@ -65,17 +65,18 @@ install_cl(){
     echo $PATH
     cl_file="$HOME/bin/cl"
     ls -l "$HOME/bin"
-    echo "#!/bin/bash" > "$cl_file"
+    echo "#!$SHELL" > "$cl_file"
     echo "$1" '"$@"' " --eval '(quit)'" >> "$cl_file"
     chmod +x "$cl_file"
     cat "$cl_file"
     echo "PATH=$HOME/bin:\$PATH" >> $HOME/.bashrc
+    echo "PATH=$HOME/bin:\$PATH" >> $HOME/.zshrc
     cl --eval '(quit)' # print (potentially) version information and quit
     install_quicklisp
 
     # Load quicklisp by default
     cl_file="$HOME/bin/cl"
-    echo "#!/bin/bash" > "$cl_file"
+    echo "#!$SHELL" > "$cl_file"
     # https://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
     echo "$1 --load $HOME/quicklisp/setup.lisp \\
              --eval '(setf *debugger-hook*
@@ -102,7 +103,7 @@ prepare_sbcl(){
                 ls -l "$SBCL_DIR"
             fi
             echo Downloaded
-            install_cl "bash $PWD/$SBCL_DIR/run-sbcl.sh --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
+            install_cl "$SHELL $PWD/$SBCL_DIR/run-sbcl.sh --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
             ;;
         *darwin)
             brew install sbcl
