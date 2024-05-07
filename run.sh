@@ -32,7 +32,7 @@ if [ -n "$TRAVIS" ]; then
             ;;
         osx)
             # Do Nothing; let it brew
-            PLATFORM="darwin"
+            PLATFORM="$ARCH-darwin"
             ;;
         *)
             echo "Unhandled OS: ": $os
@@ -92,11 +92,7 @@ prepare_sbcl(){
     SBCL_VERSION="2.4.3"
     echo "Installing SBCL on " $PLATFORM
     case $PLATFORM in
-        *darwin)
-            brew install sbcl
-            install_cl "$(which sbcl) --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
-            ;;
-        *linux)
+        x86-64-darwin | *linux)
             SBCL_DIR="sbcl-$SBCL_VERSION-$PLATFORM"
             LISP_URL="https://github.com/roswell/sbcl_bin/releases/download/$SBCL_VERSION/$SBCL_DIR-binary.tar.bz2"
             echo Downloading $LISP from $LISP_URL...
@@ -107,6 +103,10 @@ prepare_sbcl(){
             fi
             echo Downloaded
             install_cl "bash $PWD/$SBCL_DIR/run-sbcl.sh --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
+            ;;
+        *darwin)
+            brew install sbcl
+            install_cl "$(which sbcl) --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
             ;;
     esac
 }
