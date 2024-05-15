@@ -177,19 +177,19 @@ prepare_acl(){
                 wget --no-check-certificate "$LISP_URL" -O "acl-$ACL_VERSION.dmg"
                 sudo hdiutil attach "acl-$ACL_VERSION.dmg"
                 ls -l /Volumes/AllegroCL64express/
-                sudo cp -R /Volumes/AllegroCL64express/ /Applications/
-                ls -l /Applications/
-                /Applications/AllegroCL64express.app --help
+                sudo cp /Volumes/AllegroCL64express/AllegroCL64express.app /Applications/
+                ls -l /Applications/AllegroCL64express.app
+                install_cl /Applications/AllegroCL64express.app/alisp
                 ;;
             *linux)
                 wget --no-check-certificate "$LISP_URL" -O "acl-$ACL_VERSION.tbz2"
                 sudo tar jxf "acl-$ACL_VERSION.tbz2" -C /usr/local/
                 ls -l /usr/local/
+                install_cl /usr/local/acl"$ACL_VERSION"express64.0/alisp
                 ;;
         esac
     fi
     echo Downloaded
-    install_cl "alisp"
 }
 
 install_quicklisp(){
