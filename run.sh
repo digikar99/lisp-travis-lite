@@ -39,19 +39,25 @@ if [ -n "$TRAVIS" ]; then
             exit 1
             ;;
     esac
-else
+else # Github actions
     case $OS in
         macos-14)
             PLATFORM="arm64-darwin"
             CCL_PLATFORM="darwinarm"
+            ACL_PLATFORM="macarm64.64"
+            ACL_SUFFIX="macos-arm64.dmg"
             ;;
         ubuntu*)
             PLATFORM="$ARCH-linux"
             CCL_PLATFORM="linuxx86"
+            ACL_PLATFORM="linuxamd64.64"
+            ACL_SUFFIX="linux-x64.tbz2"
             ;;
         macos*)
             PLATFORM="$ARCH-darwin"
             CCL_PLATFORM="darwinx86"
+            ACL_PLATFORM="macosx86-64.64"
+            ACL_SUFFIX="macos-x64.dmg"
             ;;
         *) echo "Unknown OS: " $OS
            exit 1
@@ -158,6 +164,31 @@ prepare_ecl(){
     fi
     echo Downloaded
     install_cl "/usr/local/bin/ecl"
+}
+
+# Allegro CL
+prepare_acl(){
+    ACL_VERSION="11.0"
+    LISP_URL="https://franz.com/ftp/pub/acl"$ACL_VERSION"express/$ACL_PLATFORM/acl"$ACL_VERSION"express-$ACL_SUFFIX"
+    echo Downloading $LISP from $LISP_URL...
+    if [ -z $DRY_RUN ] ; then
+        case $PLATFORM in
+            *darwin)
+                wget --no-check-certificate "$LISP_URL" -O "acl-$ACL_VERSION.dmg"
+                sudo hdiutil attach "acl-$ACL_VERSION.dmg" -mountpoint "/Volumes/acl-$ACL_VERSION/"
+                ls -l /Volumes/AllegroCL64express/
+                sudo cp -R "/Volumes/AllegroCL64express/*" /Applications/
+                ls -l /Applications/
+                ;;
+            *linux)
+                wget --no-check-certificate "$LISP_URL" -O "acl-$ACL_VERSION.tbz2"
+                sudo tar jxf "acl-$ACL_VERSION.tbz2" -C /usr/local/
+                ls -l /usr/local/
+                ;;
+        esac
+    fi
+    echo Downloaded
+    install_cl "alisp"
 }
 
 install_quicklisp(){

@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        lisp: [sbcl, ccl, ecl, abcl]
+        lisp: [sbcl, ccl, acl, ecl, abcl]
         lang_ext: [[python, py], [bash, sh]]
         os: [ubuntu-latest, macos-14, macos-13]
         exclude:
@@ -27,6 +27,12 @@ jobs:
             os: macos-13
           - lisp: abcl
             os: macos-13
+          - lisp: acl
+            os: ubuntu-latest
+          - lisp: acl
+            os: macos-13
+          - lisp: acl
+            lang_ext: [python, py]
 
     runs-on: ${{ matrix.os }}
 
