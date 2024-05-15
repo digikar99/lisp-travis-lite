@@ -177,7 +177,7 @@ prepare_acl(){
                 wget --no-check-certificate "$LISP_URL" -O "acl-$ACL_VERSION.dmg"
                 sudo hdiutil attach "acl-$ACL_VERSION.dmg"
                 ls -l /Volumes/AllegroCL64express/
-                sudo cp /Volumes/AllegroCL64express/AllegroCL64express.app /Applications/
+                sudo cp -R /Volumes/AllegroCL64express/AllegroCL64express.app /Applications/
                 ls -l /Applications/AllegroCL64express.app
                 install_cl /Applications/AllegroCL64express.app/alisp
                 ;;
