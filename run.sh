@@ -180,7 +180,9 @@ prepare_acl(){
                 sudo cp -R /Volumes/AllegroCL64express/AllegroCL64express.app /Applications/
                 echo "ls -l /Applications/AllegroCL64express.app/Contents/MacOS"
                 ls -l /Applications/AllegroCL64express.app/Contents/MacOS
-                install_cl /Applications/AllegroCL64express.app/Contents/MacOS/alisp
+                echo "/Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express --help"
+                /Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express --help
+                install_cl /Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express
                 ;;
             *linux)
                 wget --no-check-certificate "$LISP_URL" -O "acl-$ACL_VERSION.tbz2"
