@@ -178,6 +178,7 @@ prepare_acl(){
                 sudo hdiutil attach "acl-$ACL_VERSION.dmg"
                 ls -l /Volumes/AllegroCL64express/
                 sudo cp -R /Volumes/AllegroCL64express/AllegroCL64express.app /Applications/
+                echo "ls -l /Applications/AllegroCL64express.app/Contents/"
                 ls -l /Applications/AllegroCL64express.app/Contents/
                 install_cl /Applications/AllegroCL64express.app/Contents/alisp
                 ;;
