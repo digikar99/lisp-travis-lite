@@ -178,8 +178,10 @@ prepare_acl(){
                 sudo hdiutil attach "acl-$ACL_VERSION.dmg"
                 ls -l /Volumes/AllegroCL64express/
                 sudo cp -R /Volumes/AllegroCL64express/AllegroCL64express.app /Applications/
+
                 echo "ls -l /Applications/AllegroCL64express.app/Contents/MacOS"
                 ls -l /Applications/AllegroCL64express.app/Contents/MacOS
+
                 echo "/Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express --help"
                 /Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express --help
                 install_cl /Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express
