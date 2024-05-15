@@ -61,7 +61,6 @@ jobs:
         LANG: ${{ matrix.lang_ext[0] }}
         EXT:  ${{ matrix.lang_ext[1] }}
       run: |
-        sleep 2
         pwd
         ls -l
         $LANG --version
