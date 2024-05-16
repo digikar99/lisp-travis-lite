@@ -115,6 +115,7 @@ install_cl(){
     echo "esac" >> "$cl_file"
     echo 'processed_args+=("${var}")' >> "$cl_file"
     echo "done" >> "$cl_file"
+    echo 'echo ${processed_args[@]}'
 
     # https://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
     echo "$1 $LOADOPT $HOME/quicklisp/setup.lisp \\
@@ -123,7 +124,7 @@ install_cl(){
                             (declare (ignore h))
                             (uiop:print-condition-backtrace c)
                             (uiop:quit 1)))'" \
-                                '"${processed_args[@]}"' " $QUITOPT" >> "$cl_file"
+                                '${processed_args[@]}' " $QUITOPT" >> "$cl_file"
     chmod +x "$cl_file"
     cat "$cl_file"
 }
