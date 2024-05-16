@@ -109,13 +109,13 @@ install_cl(){
     echo "for var in "'$@' >> "$cl_file"
     echo "do" >> "$cl_file"
     echo 'case $var in' >> "$cl_file"
-    echo '--load|-l) $var="'$LOADOPT'" ;;' >> "$cl_file"
-    echo '--eval|-e) $var="'$EVALOPT'" ;;' >> "$cl_file"
-    echo '--quit|-q) $var="'$QUITOPT'" ;;' >> "$cl_file"
+    echo '--load|-l) var="'$LOADOPT'" ;;' >> "$cl_file"
+    echo '--eval|-e) var="'$EVALOPT'" ;;' >> "$cl_file"
+    echo '--quit|-q) var="'$QUITOPT'" ;;' >> "$cl_file"
     echo "esac" >> "$cl_file"
     echo 'processed_args+=("${var}")' >> "$cl_file"
     echo "done" >> "$cl_file"
-    echo 'echo ${processed_args[@]}'
+    echo 'echo ${processed_args[@]}' >> "$cl_file"
 
     # https://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
     echo "$1 $LOADOPT $HOME/quicklisp/setup.lisp \\
