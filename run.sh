@@ -65,7 +65,7 @@ else # Github actions
     esac
 fi
 
-case LISP in
+case $LISP in
     acl|allegro)
         EVALOPT="-e"
         LOADOPT="-L"
@@ -76,7 +76,7 @@ case LISP in
         ;;
 esac
 
-case LISP in
+case $LISP in
     acl|allegro)
         QUITOPT="--kill"
         ;;
