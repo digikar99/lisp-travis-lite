@@ -124,7 +124,7 @@ install_cl(){
                             (declare (ignore h))
                             (uiop:print-condition-backtrace c)
                             (uiop:quit 1)))'" \
-                                '${processed_args[@]}' " $QUITOPT" >> "$cl_file"
+                                '"${processed_args[@]}"' " $QUITOPT" >> "$cl_file"
     chmod +x "$cl_file"
     cat "$cl_file"
 }
