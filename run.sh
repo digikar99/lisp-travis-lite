@@ -115,6 +115,7 @@ install_cl(){
     echo "esac" >> "$cl_file"
     echo 'processed_args+=("${var}")' >> "$cl_file"
     echo "done" >> "$cl_file"
+    echo 'var="$(printf %q "$var")"' >> "$cl_file"
     echo 'echo ${processed_args[@]}' >> "$cl_file"
 
     # https://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
