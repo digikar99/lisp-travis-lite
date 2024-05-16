@@ -86,6 +86,7 @@ case LISP in
 esac
 
 install_cl(){
+    # Create a 'cl' script
     mkdir "$HOME/bin"
     echo $PATH
     cl_file="$HOME/bin/cl"
@@ -102,6 +103,19 @@ install_cl(){
     # Load quicklisp by default
     cl_file="$HOME/bin/cl"
     echo "#!$SHELL" > "$cl_file"
+
+    # Argument processor: replace --load with $LOADOPT and --eval with $EVALOPT
+    echo "processed_args=()" >> "$cl_file"
+    echo "for var in "'$@' >> "$cl_file"
+    echo "do" >> "$cl_file"
+    echo 'case $var in' >> "$cl_file"
+    echo '--load|-l) $var='$LOADOPT" ;;" >> "$cl_file"
+    echo '--eval|-e) $var='$EVALOPT" ;;" >> "$cl_file"
+    echo '--quit|-q) $var='$QUITOPT" ;;" >> "$cl_file"
+    echo "esac" >> "$cl_file"
+    echo 'processed_args+=("${var}")' >> "$cl_file"
+    echo "done" >> "$cl_file"
+
     # https://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
     echo "$1 $LOADOPT $HOME/quicklisp/setup.lisp \\
              $EVALOPT '(setf *debugger-hook*
@@ -109,7 +123,7 @@ install_cl(){
                             (declare (ignore h))
                             (uiop:print-condition-backtrace c)
                             (uiop:quit 1)))'" \
-                                '"$@"' " $QUITOPT" >> "$cl_file"
+                                '"${processed_args[@]}"' " $QUITOPT" >> "$cl_file"
     chmod +x "$cl_file"
     cat "$cl_file"
 }
