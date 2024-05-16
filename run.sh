@@ -104,7 +104,7 @@ install_cl(){
     cl_file="$HOME/bin/cl"
     echo "#!$SHELL" > "$cl_file"
 
-    # Argument processor: replace --load with $LOADOPT and --eval with $EVALOPT
+    # Argument processor: replace --load with $LOADOPT, --eval with $EVALOPT, --quit with $QUITOPT
     echo "processed_args=()" >> "$cl_file"
     echo "for var in "'$@' >> "$cl_file"
     echo "do" >> "$cl_file"
