@@ -65,6 +65,25 @@ else # Github actions
     esac
 fi
 
+case LISP in
+    acl|allegro)
+        EVALOPT="-e"
+        LOADOPT="-L"
+        ;;
+    *)
+        EVALOPT="--eval"
+        LOADOPT="--load"
+        ;;
+esac
+
+case LISP in
+    acl|allegro)
+        QUITOPT="--kill"
+        ;;
+    *)
+        QUITOPT="--eval '(quit)'"
+        ;;
+esac
 
 install_cl(){
     mkdir "$HOME/bin"
@@ -72,25 +91,25 @@ install_cl(){
     cl_file="$HOME/bin/cl"
     ls -l "$HOME/bin"
     echo "#!$SHELL" > "$cl_file"
-    echo "$1" '"$@"' " --eval '(quit)'" >> "$cl_file"
+    echo "$1" '"$@"' " $QUITOPT" >> "$cl_file"
     chmod +x "$cl_file"
     cat "$cl_file"
     echo "PATH=$HOME/bin:\$PATH" >> $HOME/.bashrc
     echo "PATH=$HOME/bin:\$PATH" >> $HOME/.zshrc
-    cl --eval '(quit)' # print (potentially) version information and quit
+    cl $QUITOPT # print (potentially) version information and quit
     install_quicklisp
 
     # Load quicklisp by default
     cl_file="$HOME/bin/cl"
     echo "#!$SHELL" > "$cl_file"
     # https://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
-    echo "$1 --load $HOME/quicklisp/setup.lisp \\
-             --eval '(setf *debugger-hook*
-                           (lambda (c h)
-                             (declare (ignore h))
-                             (uiop:print-condition-backtrace c)
-                             (uiop:quit 1)))'" \
-                                  '"$@"' " --eval '(uiop:quit)'" >> "$cl_file"
+    echo "$1 $LOADOPT $HOME/quicklisp/setup.lisp \\
+             $EVALOPT '(setf *debugger-hook*
+                          (lambda (c h)
+                            (declare (ignore h))
+                            (uiop:print-condition-backtrace c)
+                            (uiop:quit 1)))'" \
+                                '"$@"' " $QUITOPT" >> "$cl_file"
     chmod +x "$cl_file"
     cat "$cl_file"
 }
@@ -182,8 +201,8 @@ prepare_acl(){
                 echo "ls -l /Applications/AllegroCL64express.app/Contents/MacOS"
                 ls -l /Applications/AllegroCL64express.app/Contents/MacOS
 
-                echo "/Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express --help"
-                /Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express --help
+                # echo "/Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express --help"
+                # /Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express --help
                 install_cl /Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express
                 ;;
             *linux)
@@ -203,8 +222,8 @@ install_quicklisp(){
     cd $HOME
     # Below we remove a prompt to append quicklisp autoload code to the implementations init file
     # Also, some implementations like ABCL necessitate an explicit one-by-one form evaluation
-    cl --load "quicklisp.lisp" --eval '(quicklisp-quickstart:install)' \
-       --eval '(in-package :ql-impl-util)' --eval \
+    cl $LOADOPT "quicklisp.lisp" $EVALOPT '(quicklisp-quickstart:install)' \
+       $EVALOPT '(in-package :ql-impl-util)' $EVALOPT \
        '(defun add-to-init-file (&optional implementation-or-file)
           "Add forms to the Lisp implementations init file that will load
             quicklisp at CL startup."
@@ -220,7 +239,7 @@ install_quicklisp(){
                                     :if-does-not-exist :create
                                     :if-exists :append)
               (write-init-forms stream))
-            init-file))' --eval '(progn (add-to-init-file) (cl-user::quit))' \
+            init-file))' $EVALOPT '(progn (add-to-init-file) (cl-user::quit))' \
                 && echo Successfully installed quicklisp!
 }
 
