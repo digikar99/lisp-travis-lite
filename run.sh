@@ -97,7 +97,7 @@ install_cl(){
     cat "$cl_file"
     echo "PATH=$HOME/bin:\$PATH" >> $HOME/.bashrc
     echo "PATH=$HOME/bin:\$PATH" >> $HOME/.zshrc
-    cl $QUITOPT # print (potentially) version information and quit
+    # cl $QUITOPT # print (potentially) version information and quit
     install_quicklisp
 
     # Load quicklisp by default
