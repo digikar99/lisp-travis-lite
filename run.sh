@@ -219,7 +219,7 @@ prepare_acl(){
 
                 # echo "/Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express --help"
                 # /Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express --help
-                install_cl /Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express
+                install_cl "/Applications/AllegroCL64express.app/Contents/Resources/alisp -I /Applications/AllegroCL64express.app/Contents/Resources/alisp.dxl"
                 ;;
             *linux)
                 wget --no-check-certificate "$LISP_URL" -O "acl-$ACL_VERSION.tbz2"
