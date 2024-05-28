@@ -214,17 +214,8 @@ prepare_acl(){
                 ls -l /Volumes/AllegroCL64express/
                 sudo cp -R /Volumes/AllegroCL64express/AllegroCL64express.app /Applications/
 
-                echo "ls -l /Applications/AllegroCL64express.app/"
-                ls -l /Applications/AllegroCL64express.app/
-
-                echo "ls -l /Applications/AllegroCL64express.app/Contents/"
-                ls -l /Applications/AllegroCL64express.app/Contents/
-
-                echo "ls -l /Applications/AllegroCL64express.app/Contents/Resources/"
-                ls -l /Applications/AllegroCL64express.app/Contents/Resources/
-
-                echo "ls -l /Applications/AllegroCL64express.app/Contents/MacOS"
-                ls -l /Applications/AllegroCL64express.app/Contents/MacOS
+                echo "ls -R /Applications/AllegroCL64express.app/"
+                ls -R /Applications/AllegroCL64express.app/
 
                 # echo "/Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express --help"
                 # /Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express --help
