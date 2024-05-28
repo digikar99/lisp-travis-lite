@@ -81,7 +81,7 @@ case $LISP in
         QUITOPT="--kill"
         ;;
     *)
-        QUITOPT="--eval '(quit)'"
+        QUITOPT="--eval '(uiop:quit)'"
         ;;
 esac
 
