@@ -217,17 +217,17 @@ prepare_acl(){
                 # echo "ls -R /Applications/AllegroCL64express.app/"
                 # ls -R /Applications/AllegroCL64express.app/
 
-                install_cl "/Applications/AllegroCL64express.app/Contents/Resources/alisp -I /Applications/AllegroCL64express.app/Contents/Resources/alisp.dxl"
+                acl_cmd="/Applications/AllegroCL64express.app/Contents/Resources/alisp -I /Applications/AllegroCL64express.app/Contents/Resources/alisp.dxl"
                 ;;
             *linux)
                 wget --no-check-certificate "$LISP_URL" -O "acl-$ACL_VERSION.tbz2"
                 sudo tar jxf "acl-$ACL_VERSION.tbz2" -C /usr/local/
                 ls -l /usr/local/
                 acl_cmd="/usr/local/acl"$ACL_VERSION"express.64/alisp -I /usr/local/acl"$ACL_VERSION"express.64/alisp.dxl"
-                install_cl "$acl_cmd"
                 ;;
         esac
     fi
+    install_cl "$acl_cmd"
     echo Downloaded
 }
 
