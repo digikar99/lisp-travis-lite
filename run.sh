@@ -97,7 +97,7 @@ install_cl(){
     cat "$cl_file"
     echo "PATH=$HOME/bin:\$PATH" >> $HOME/.bashrc
     echo "PATH=$HOME/bin:\$PATH" >> $HOME/.zshrc
-    # cl $QUITOPT # print (potentially) version information and quit
+    cl $QUITOPT # print (potentially) version information and quit
     install_quicklisp
 
     # Load quicklisp by default
@@ -214,11 +214,9 @@ prepare_acl(){
                 ls -l /Volumes/AllegroCL64express/
                 sudo cp -R /Volumes/AllegroCL64express/AllegroCL64express.app /Applications/
 
-                echo "ls -R /Applications/AllegroCL64express.app/"
-                ls -R /Applications/AllegroCL64express.app/
+                # echo "ls -R /Applications/AllegroCL64express.app/"
+                # ls -R /Applications/AllegroCL64express.app/
 
-                # echo "/Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express --help"
-                # /Applications/AllegroCL64express.app/Contents/MacOS/AllegroCL64express --help
                 install_cl "/Applications/AllegroCL64express.app/Contents/Resources/alisp -I /Applications/AllegroCL64express.app/Contents/Resources/alisp.dxl"
                 ;;
             *linux)
@@ -255,7 +253,7 @@ install_quicklisp(){
                                     :if-does-not-exist :create
                                     :if-exists :append)
               (write-init-forms stream))
-            init-file))' $EVALOPT '(progn (add-to-init-file) (cl-user::quit))' \
+            init-file))' $EVALOPT '(add-to-init-file)' $QUITOPT \
                 && echo Successfully installed quicklisp!
 }
 
