@@ -223,7 +223,8 @@ prepare_acl(){
                 wget --no-check-certificate "$LISP_URL" -O "acl-$ACL_VERSION.tbz2"
                 sudo tar jxf "acl-$ACL_VERSION.tbz2" -C /usr/local/
                 ls -l /usr/local/
-                install_cl /usr/local/acl"$ACL_VERSION"express64.0/alisp
+                acl_cmd="/usr/local/acl"$ACL_VERSION"express.64/alisp -I /usr/local/acl"$ACL_VERSION"express.64/alisp.dxl"
+                install_cl "$acl_cmd"
                 ;;
         esac
     fi

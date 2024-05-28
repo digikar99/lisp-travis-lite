@@ -17,6 +17,7 @@ TODO: Enable ecl for macosx
 | Impl \ OS (arch) | linux (x86\_64) | linux (arm64) | macosx (x86\_64) | macosx (arm64) |
 |------------------|-----------------|---------------|------------------|----------------|
 | sbcl             | ✓               | ✓             | ✓                | ✓              |
+| allegro          | ✓               | ✗             | ✗                | ✓              |
 | ccl              | ✓               | ✗             | ✗                | ✗              |
 | ecl              | ✓               | ✗             | ✗                | ✗              |
 | abcl             | ✓               | ✗             | ✗                | ✗              |

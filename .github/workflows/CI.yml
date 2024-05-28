@@ -28,8 +28,6 @@ jobs:
           - lisp: abcl
             os: macos-13
           - lisp: acl
-            os: ubuntu-latest
-          - lisp: acl
             os: macos-13
           - lisp: acl
             lang_ext: [python, py]
