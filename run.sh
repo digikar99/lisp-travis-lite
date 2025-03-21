@@ -119,13 +119,22 @@ install_cl(){
     echo 'echo ${processed_args[@]}' >> "$cl_file"
 
     # https://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
-    echo "$1 $LOADOPT $HOME/quicklisp/setup.lisp \\
-             $EVALOPT '(setf *debugger-hook*
-                          (lambda (c h)
-                            (declare (ignore h))
-                            (uiop:print-condition-backtrace c)
-                            (uiop:quit 1)))'" \
-                                '"${processed_args[@]}"' " $QUITOPT" >> "$cl_file"
+    case $LISP in
+        allegro|acl)
+            echo "$1 --batch --backtrace-on-error $LOADOPT $HOME/quicklisp/setup.lisp" \
+                 '"${processed_args[@]}"' " $QUITOPT" >> "$cl_file"
+            ;;
+        *)
+            echo "$1 $LOADOPT $HOME/quicklisp/setup.lisp \\
+                     $EVALOPT '(setf *debugger-hook*
+                               (lambda (c h)
+                                 (declare (ignore h))
+                                 (uiop:print-condition-backtrace c)
+                                 (uiop:quit 1)))'" \
+                              '"${processed_args[@]}"' " $QUITOPT" >> "$cl_file"
+            ;;
+    esac
+
     chmod +x "$cl_file"
     cat "$cl_file"
 }
