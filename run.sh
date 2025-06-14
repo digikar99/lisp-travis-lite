@@ -199,7 +199,7 @@ prepare_abcl(){
 }
 
 prepare_ecl(){
-    ECL_VERSION="23.9.9"
+    ECL_VERSION="24.5.10"
     LISP_URL="https://github.com/digikar99/ecl_bin/releases/download/$ECL_VERSION/ecl-$ECL_VERSION-$ARCH-linux-binary.tar.gz"
     echo Downloading $LISP from $LISP_URL...
     if [ -z $DRY_RUN ] ; then
