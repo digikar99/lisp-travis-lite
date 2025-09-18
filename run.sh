@@ -42,6 +42,7 @@ if [ -n "$TRAVIS" ]; then
 else # Github actions
     case $OS in
         macos-14)
+            brew install bash
             PLATFORM="arm64-darwin"
             CCL_PLATFORM="darwinarm"
             ACL_PLATFORM="macarm64.64"
@@ -56,6 +57,7 @@ else # Github actions
             cl_dir="$HOME/.local/bin"
             ;;
         macos*)
+            brew install bash
             PLATFORM="$ARCH-darwin"
             CCL_PLATFORM="darwinx86"
             ACL_PLATFORM="macosx86-64.64"

@@ -33,6 +33,9 @@ jobs:
             lang_ext: [python, py]
 
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
 
     steps:
 
