@@ -46,21 +46,25 @@ else # Github actions
             CCL_PLATFORM="darwinarm"
             ACL_PLATFORM="macarm64.64"
             ACL_SUFFIX="macos-arm64.dmg"
+            cl_dir="$HOME/.local/bin"
             ;;
         ubuntu*)
             PLATFORM="$ARCH-linux"
             CCL_PLATFORM="linuxx86"
             ACL_PLATFORM="linuxamd64.64"
             ACL_SUFFIX="linux-x64.tbz2"
+            cl_dir="$HOME/.local/bin"
             ;;
         macos*)
             PLATFORM="$ARCH-darwin"
             CCL_PLATFORM="darwinx86"
             ACL_PLATFORM="macosx86-64.64"
             ACL_SUFFIX="macos-x64.dmg"
+            cl_dir="$HOME/bin"
             ;;
         windows*)
             PLATFORM="$ARCH-windows"
+            cl_dir="/usr/local/bin"
             ;;
         *) echo "Unknown OS: " $OS
            exit 1
@@ -90,10 +94,10 @@ esac
 
 install_cl(){
     # Create a 'cl' script
-    mkdir "/usr/local/bin"
+    mkdir -p "$cl_dir"
     echo $PATH
-    cl_file="/usr/local/bin/cl"
-    ls -l "/usr/local/bin"
+    cl_file="$cl_dir/cl"
+    ls -l "$cl_dir"
     echo "#!$SHELL" > "$cl_file"
     echo "$1" '"$@"' " $QUITOPT" >> "$cl_file"
     chmod +x "$cl_file"
@@ -102,7 +106,6 @@ install_cl(){
     install_quicklisp
 
     # Load quicklisp by default
-    cl_file="/usr/local/bin/cl"
     echo "#!$SHELL" > "$cl_file"
 
     # Argument processor: replace --load with $LOADOPT, --eval with $EVALOPT, --quit with $QUITOPT
