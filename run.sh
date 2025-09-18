@@ -144,7 +144,7 @@ install_cl(){
 }
 
 prepare_sbcl(){
-    SBCL_VERSION="2.4.11"
+    SBCL_VERSION="2.5.8"
     echo "Installing SBCL on " $PLATFORM
     case $PLATFORM in
         x86-64-darwin | *linux)
