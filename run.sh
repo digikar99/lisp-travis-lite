@@ -90,23 +90,19 @@ esac
 
 install_cl(){
     # Create a 'cl' script
-    mkdir "$HOME/bin"
+    mkdir "/usr/local/bin"
     echo $PATH
-    cl_file="$HOME/bin/cl"
-    ls -l "$HOME/bin"
+    cl_file="/usr/local/bin/cl"
+    ls -l "/usr/local/bin"
     echo "#!$SHELL" > "$cl_file"
     echo "$1" '"$@"' " $QUITOPT" >> "$cl_file"
     chmod +x "$cl_file"
     cat "$cl_file"
-    echo "export PATH=$HOME/bin:\$PATH" >> $HOME/.bashrc
-    echo "export PATH=$HOME/bin:\$PATH" >> $HOME/.zshrc
-    echo "PATH=$HOME/bin:$PATH" >> $GITHUB_ENV
-    export PATH="$HOME/bin:$PATH"
     cl $QUITOPT # print (potentially) version information and quit
     install_quicklisp
 
     # Load quicklisp by default
-    cl_file="$HOME/bin/cl"
+    cl_file="/usr/local/bin/cl"
     echo "#!$SHELL" > "$cl_file"
 
     # Argument processor: replace --load with $LOADOPT, --eval with $EVALOPT, --quit with $QUITOPT

@@ -36,10 +36,6 @@ jobs:
     - name: uname -a
       run: uname -a
 
-    - name: Update $PATH
-      run: |
-        echo $PATH
-        echo "PATH=$HOME/bin:$PATH" >> $GITHUB_ENV
     - name: Check $PATH
       run: echo $PATH
 

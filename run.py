@@ -51,8 +51,8 @@ def ensure_string(obj):
 
 def install_cl(cl_command):
 	print("cl_command:", cl_command)
-	bin_dir = os.path.join(HOME, "bin")
-	cl_file = os.path.join(HOME, "bin", "cl")
+	bin_dir = os.path.join("/usr/local/bin")
+	cl_file = os.path.join("/usr/local/bin", "cl")
 	print("cl_file", cl_file)
 
 	# PART 0: Make the directories
