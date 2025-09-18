@@ -59,6 +59,9 @@ else # Github actions
             ACL_PLATFORM="macosx86-64.64"
             ACL_SUFFIX="macos-x64.dmg"
             ;;
+        windows*)
+            PLATFORM="$ARCH-windows"
+            ;;
         *) echo "Unknown OS: " $OS
            exit 1
            ;;
@@ -157,6 +160,10 @@ prepare_sbcl(){
             ;;
         *darwin)
             brew install sbcl
+            install_cl "$(which sbcl) --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
+            ;;
+        *windows)
+            choco install -y sbcl
             install_cl "$(which sbcl) --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
             ;;
     esac
