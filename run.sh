@@ -163,7 +163,7 @@ prepare_sbcl(){
             install_cl "$(which sbcl) --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
             ;;
         *windows)
-            choco install -y sbcl
+            choco install -y sbcl wget
             install_cl "$(which sbcl) --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
             ;;
     esac
