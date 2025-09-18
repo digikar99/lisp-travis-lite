@@ -98,7 +98,7 @@ install_cl(){
     echo $PATH
     cl_file="$cl_dir/cl"
     ls -l "$cl_dir"
-    echo "#!$SHELL" > "$cl_file"
+    echo "#!/usr/bin/bash" > "$cl_file"
     echo "$1" '"$@"' " $QUITOPT" >> "$cl_file"
     chmod +x "$cl_file"
     cat "$cl_file"
@@ -106,7 +106,7 @@ install_cl(){
     install_quicklisp
 
     # Load quicklisp by default
-    echo "#!$SHELL" > "$cl_file"
+    echo "#!/usr/bin/bash" > "$cl_file"
 
     # Argument processor: replace --load with $LOADOPT, --eval with $EVALOPT, --quit with $QUITOPT
     echo "processed_args=()" >> "$cl_file"
