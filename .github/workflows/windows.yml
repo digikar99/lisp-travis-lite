@@ -12,21 +12,26 @@ jobs:
     strategy:
       matrix:
         lisp: [sbcl]
-        lang_ext: [[bash, sh, bash]]
+        lang_ext: [[bash, sh]]
         os: [windows-latest]
 
     runs-on: ${{ matrix.os }}
 
     defaults:
       run:
-        shell: ${{ matrix.lang_ext[2] }}
+        shell: msys2 {0}
 
     steps:
 
     - uses: actions/checkout@v2
 
+    - uses: msys2/setup-msys2@v2
+      with:
+        install: libzstd-devel git curl
+
     - name: ${{ matrix.lang_ext[0] }} version
-      run: ${{ matrix.lang_ext[0] }} --version
+      run: |
+        ${{ matrix.lang_ext[0] }} --version
 
     - name: uname -a
       run: uname -a
@@ -42,8 +47,7 @@ jobs:
 # cl-travis issue - tput: No value for $TERM and no -T specified
 # roswell issue - libcurl3 versions
 
-    - name: Download implementation (bash)
-      if: matrix.lang_ext[2] == 'bash'
+    - name: Download implementation
       env:
         LISP: ${{ matrix.lisp }}
         OS:   ${{ matrix.os }}
@@ -55,22 +59,10 @@ jobs:
         $LANG --version
         $LANG <(curl -s https://raw.githubusercontent.com/digikar99/lisp-travis-lite/master/run.$EXT)
 
-    - name: Download implementation (pwsh)
-      if: matrix.lang_ext[2] == 'pwsh'
-      env:
-        LISP: ${{ matrix.lisp }}
-        OS:   ${{ matrix.os }}
-        LANG: ${{ matrix.lang_ext[0] }}
-        EXT:  ${{ matrix.lang_ext[1] }}
-      run: |
-        pwd
-        ls -l
-        & $LANG --version
-        & $LANG <(curl -s https://raw.githubusercontent.com/digikar99/lisp-travis-lite/master/run.$EXT)
-
 
     - name: Run Lisp
       run: |
+        source ~/.bashrc
         echo $PATH
         cl --eval '(print "hello")'
         cl --eval '(this-will-error)' || echo $?
@@ -78,8 +70,12 @@ jobs:
         cl --eval '(uiop:quit 0)'
 
     - name: Test quicklisp
-      run: cl --eval '(ql:quickload "alexandria")'
+      run: |
+        source ~/.bashrc
+        cl --eval '(ql:quickload "alexandria")'
 
     - name: Test clpm
       if: matrix.lang_ext[0] == 'python'
-      run: cl --eval '(print (clpm-client:clpm-version))'
+      run: |
+        source ~/.bashrc
+        cl --eval '(print (clpm-client:clpm-version))'

@@ -98,8 +98,10 @@ install_cl(){
     echo "$1" '"$@"' " $QUITOPT" >> "$cl_file"
     chmod +x "$cl_file"
     cat "$cl_file"
-    echo "PATH=$HOME/bin:\$PATH" >> $HOME/.bashrc
-    echo "PATH=$HOME/bin:\$PATH" >> $HOME/.zshrc
+    echo "export PATH=$HOME/bin:\$PATH" >> $HOME/.bashrc
+    echo "export PATH=$HOME/bin:\$PATH" >> $HOME/.zshrc
+    echo "PATH=$HOME/bin:$PATH" >> $GITHUB_ENV
+    export PATH="$HOME/bin:$PATH"
     cl $QUITOPT # print (potentially) version information and quit
     install_quicklisp
 
@@ -163,7 +165,7 @@ prepare_sbcl(){
             install_cl "$(which sbcl) --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
             ;;
         *windows)
-            choco install -y sbcl wget
+            pacman --noconfirm -S mingw-w64-x86_64-sbcl wget
             install_cl "$(which sbcl) --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
             ;;
     esac
