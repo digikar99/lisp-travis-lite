@@ -69,9 +69,3 @@ jobs:
       run: |
         source ~/.bashrc
         cl --eval '(ql:quickload "alexandria")'
-
-    - name: Test clpm
-      if: matrix.lang_ext[0] == 'python'
-      run: |
-        source ~/.bashrc
-        cl --eval '(print (clpm-client:clpm-version))'

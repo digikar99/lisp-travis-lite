@@ -91,7 +91,7 @@ def install_cl(cl_command):
 	install_quicklisp(cl_file)
 
 	# Part 3: Install clpm
-	if LISP != "abcl": install_clpm()
+	# if LISP != "abcl": install_clpm()
 
 	# Part 4: Print backtrace and ensure quitting
 	with open(cl_file, "w") as cl:

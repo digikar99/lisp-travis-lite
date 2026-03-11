@@ -75,7 +75,3 @@ jobs:
 
     - name: Test quicklisp
       run: cl --eval '(ql:quickload "alexandria")'
-
-    - name: Test clpm
-      if: matrix.lang_ext[0] == 'python'
-      run: cl --eval '(print (clpm-client:clpm-version))'
