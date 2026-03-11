@@ -10,6 +10,7 @@ jobs:
     name: ${{ matrix.lisp }}, ${{ matrix.lang_ext[0] }}, ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         lisp: [sbcl, ccl, acl, ecl, abcl]
         lang_ext: [[python, py], [bash, sh]]
