@@ -103,7 +103,7 @@ install_cl(){
     cl_file="$cl_dir/cl"
     ls -l "$cl_dir"
     echo "#!$SHELL" > "$cl_file"
-    echo "$1" '"$@"' " $QUITOPT" >> "$cl_file"
+    echo "$1" '"$@"' >> "$cl_file"
     chmod +x "$cl_file"
     cat "$cl_file"
     cl $QUITOPT # print (potentially) version information and quit
@@ -254,29 +254,10 @@ prepare_acl(){
 
 install_quicklisp(){
     echo Installing quicklisp...
-    wget "https://beta.quicklisp.org/quicklisp.lisp" -O "$HOME/quicklisp.lisp"
     cd $HOME
-    # Below we remove a prompt to append quicklisp autoload code to the implementations init file
-    # Also, some implementations like ABCL necessitate an explicit one-by-one form evaluation
-    cl $LOADOPT "quicklisp.lisp" $EVALOPT '(quicklisp-quickstart:install)' \
-       $EVALOPT '(in-package :ql-impl-util)' $EVALOPT \
-       '(defun add-to-init-file (&optional implementation-or-file)
-          "Add forms to the Lisp implementations init file that will load
-            quicklisp at CL startup."
-          (let ((init-file (suitable-lisp-init-file implementation-or-file)))
-            (unless init-file
-              (error "Do not know how to add to init file for your implementation."))
-            (setf init-file (merge-pathnames init-file (user-homedir-pathname)))
-            (format *query-io* "~&I will append the following lines to ~S:~%"
-                    init-file)
-            (write-init-forms *query-io* :indentation 2)
-            (with-open-file (stream init-file
-                                    :direction :output
-                                    :if-does-not-exist :create
-                                    :if-exists :append)
-              (write-init-forms stream))
-            init-file))' $EVALOPT '(add-to-init-file)' $QUITOPT \
-                && echo Successfully installed quicklisp!
+    wget https://raw.githubusercontent.com/digikar99/ql-https/master/install.sh
+    chmod +x install.sh
+    LISP=cl bash install.sh && echo Successfully installed quicklisp!
 }
 
 cd $HOME

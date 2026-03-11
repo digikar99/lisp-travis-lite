@@ -73,7 +73,7 @@ def install_cl(cl_command):
 	with open(cl_file, "w") as cl:
 		cl.writelines([
 			"#!/bin/bash\n",
-			" ".join([cl_command, '"$@"', "--eval", "'(quit)'"])
+			" ".join([cl_command, '"$@"'])
 		])
 
 	os.chmod(cl_file, 0o777)
@@ -88,7 +88,7 @@ def install_cl(cl_command):
 	)
 
 	# PART 2: Install quicklisp
-	install_quicklisp()
+	install_quicklisp(cl_file)
 
 	# Part 3: Install clpm
 	if LISP != "abcl": install_clpm()
@@ -112,44 +112,22 @@ def install_cl(cl_command):
 	print("Readable", cl_file, "?", os.access(cl_file, os.R_OK))
 
 
-def install_quicklisp():
+def install_quicklisp(cl_file):
 	print("Installing quicklisp...")
 	os.chdir(HOME)
 	run([
 		"wget",
-		"https://beta.quicklisp.org/quicklisp.lisp",
-		"-O",
-		HOME + "/quicklisp.lisp"
-	])
-
-	# Below we remove a prompt to append quicklisp autoload code to the implementations init file
-	# Also, some implementations like ABCL necessitate an explicit one-by-one form evaluation
-	cl_proc = run([
-		"cl",
-		"--load", "quicklisp.lisp",
-		"--eval", "(quicklisp-quickstart:install)",
-		"--eval", "(in-package :ql-impl-util)",
-		"--eval", """
-		  (defun add-to-init-file (&optional implementation-or-file)
-			"Add forms to the Lisp implementations init file that will load
-		  quicklisp at CL startup."
-			(let ((init-file (suitable-lisp-init-file implementation-or-file)))
-			  (unless init-file
-				(error "Do not know how to add to init file for your implementation."))
-			  (setf init-file (merge-pathnames init-file (user-homedir-pathname)))
-			  (format *query-io* "~&I will append the following lines to ~S:~%"
-					  init-file)
-			  (write-init-forms *query-io* :indentation 2)
-			  (with-open-file (stream init-file
-									  :direction :output
-									  :if-does-not-exist :create
-									  :if-exists :append)
-			  (write-init-forms stream))
-			  init-file))
-		""",
-		"--eval", "(progn (add-to-init-file) (cl-user::quit))"
+		"https://raw.githubusercontent.com/digikar99/ql-https/master/install.sh"
 	], check=True)
-
+	ql_install_proc = run(
+		["bash", "install.sh"],
+		env={"LISP": cl_file, "HOME": HOME},
+		capture_output=True
+	)
+	print(
+		ensure_string(ql_install_proc.stderr),
+		ensure_string(ql_install_proc.stdout)
+	)
 	print("Successfully installed quicklisp!")
 
 def install_clpm():
