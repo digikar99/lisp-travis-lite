@@ -174,6 +174,40 @@ prepare_sbcl(){
     esac
 }
 
+prepare_sbcl_static(){
+    echo "Installing SBCL on " $PLATFORM
+    case $PLATFORM in
+        x86-64-darwin | *linux)
+            SBCL_DIR="sbcl-2.6.1+r00-x86-64-linux"
+            LISP_URL="https://github.com/sionescu/sbcl-goodies/releases/download/v2.6.1%2Br00/sbcl-2.6.1+r00-x86-64-linux-binary.tar.bz2"
+            echo Downloading $LISP from $LISP_URL...
+            if [ -z $DRY_RUN ] ; then
+                wget "$LISP_URL" -O "$SBCL_DIR.tar.bz2"
+                tar -xf "$SBCL_DIR.tar.bz2"
+                ls -l "$SBCL_DIR"
+            fi
+            echo Downloaded
+            install_cl "$SHELL $PWD/$SBCL_DIR/run-sbcl.sh --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
+            ;;
+        *darwin)
+            echo "No prebuilt sbcl_static for macos available."
+            exit 1
+            ;;
+        *windows)
+          SBCL_DIR="sbcl-2.6.2+r00-x86-64-windows" LISP_URL="https://github.com/digikar99/sbcl-goodies-windows/releases/download/v2.6.2%2Br00/sbcl-2.6.2+r00-x86-64-windows-binary.tar.bz2"
+            echo Downloading $LISP from $LISP_URL...
+            if [ -z $DRY_RUN ] ; then
+                wget "$LISP_URL" -O "$SBCL_DIR.tar.bz2"
+                tar -xf "$SBCL_DIR.tar.bz2"
+                ls -l "$SBCL_DIR"
+            fi
+            echo Downloaded
+            install_cl "$SHELL $PWD/$SBCL_DIR/run-sbcl.sh --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
+            ;;
+    esac
+}
+
+
 prepare_ccl(){
     case $PLATFORM in
         *linux)

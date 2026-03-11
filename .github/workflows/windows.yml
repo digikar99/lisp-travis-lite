@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        lisp: [sbcl]
+        lisp: [sbcl, sbcl_static]
         lang_ext: [[bash, sh]]
         os: [windows-latest]
 
