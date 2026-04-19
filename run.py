@@ -20,7 +20,7 @@ DRY_RUN  = (False if os.getenv("DRY_RUN") is None else True)
 if OS=="macos-14":
 	PLATFORM = "arm64-darwin"
 	CCL_PLATFORM = "darwinarm"
-elif OS.startswith("ubuntu"):
+elif OS.startswith("ubuntu") or OS.startswith("linux"):
 	PLATFORM = "x86-64-linux"
 	CCL_PLATFORM = "linuxx86"
 elif OS.startswith("macos"):

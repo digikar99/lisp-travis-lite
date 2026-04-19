@@ -49,7 +49,7 @@ else # Github actions
             ACL_SUFFIX="macos-arm64.dmg"
             cl_dir="$HOME/.local/bin"
             ;;
-        ubuntu*)
+        ubuntu* | linux*)
             PLATFORM="$ARCH-linux"
             CCL_PLATFORM="linuxx86"
             ACL_PLATFORM="linuxamd64.64"
