@@ -23,7 +23,7 @@ if OS=="macos-14":
 elif OS.startswith("ubuntu") or OS.startswith("linux"):
 	PLATFORM = "x86-64-linux"
 	CCL_PLATFORM = "linuxx86"
-elif OS.startswith("macos"):
+elif OS.startswith("macos") or OS.startswith("darwin"):
 	PLATFORM = "x86-64-darwin"
 	CCL_PLATFORM = "darwinx86"
 else:

@@ -56,7 +56,7 @@ else # Github actions
             ACL_SUFFIX="linux-x64.tbz2"
             cl_dir="$HOME/.local/bin"
             ;;
-        macos*)
+        macos* | darwin*)
             brew install bash
             PLATFORM="$ARCH-darwin"
             CCL_PLATFORM="darwinx86"
