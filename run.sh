@@ -271,7 +271,7 @@ prepare_acl(){
 install_quicklisp(){
     echo Installing quicklisp...
     cd $HOME
-    wget https://raw.githubusercontent.com/digikar99/ql-https/master/install.sh
+    wget https://raw.githubusercontent.com/rudolfochrist/ql-https/refs/tags/1.0/install.sh
     chmod +x install.sh
     LISP=cl bash install.sh && echo Successfully installed quicklisp!
 }

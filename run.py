@@ -117,7 +117,7 @@ def install_quicklisp(cl_file):
 	os.chdir(HOME)
 	run([
 		"wget",
-		"https://raw.githubusercontent.com/digikar99/ql-https/master/install.sh"
+		"https://raw.githubusercontent.com/rudolfochrist/ql-https/refs/tags/1.0/install.sh"
 	], check=True)
 	ql_install_proc = run(
 		["bash", "install.sh"],
