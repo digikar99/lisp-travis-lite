@@ -214,6 +214,25 @@ def prepare_sbcl():
 			SBCL_DYNAMIC_SPACE_SIZE
 		))
 
+def prepare_sbcl_static():
+	SBCL_VERSION = "2.6.6"
+	SBCL_DIR = "-".join(["sbcl", SBCL_VERSION, PLATFORM])
+	LISP_URL = "https://github.com/digikar99/sbcl-goodies/releases/download/v{0}+r00/{1}-binary.tar.bz2".format(
+		SBCL_VERSION, SBCL_DIR
+	)
+	print("Downloading {0} from {1}...".format(LISP, LISP_URL))
+	if not DRY_RUN:
+		run(["wget", LISP_URL, "-O", "{0}.tar.bz2".format(SBCL_DIR)])
+		run(["tar", "-xf", "{0}.tar.bz2".format(SBCL_DIR)])
+		run(["ls", "-l", SBCL_DIR])
+		print("Done.")
+		install_cl("bash {0}/{1}/run-sbcl.sh --dynamic-space-size {2}".format(
+			os.getcwd(),
+			SBCL_DIR,
+			SBCL_DYNAMIC_SPACE_SIZE
+		))
+
+
 def prepare_ccl():
 	CCL = "ccl-1.12.2-{}".format(CCL_PLATFORM)
 	LISP_URL = "https://github.com/roswell/ccl_bin/releases/download/1.12.2/{0}.tar.gz".format(CCL)
