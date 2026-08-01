@@ -148,7 +148,7 @@ install_cl(){
 }
 
 prepare_sbcl(){
-    SBCL_VERSION="2.5.8"
+    SBCL_VERSION="2.6.6"
     echo "Installing SBCL on " $PLATFORM
     case $PLATFORM in
         x86-64-darwin | *linux)
@@ -176,9 +176,9 @@ prepare_sbcl(){
 
 prepare_sbcl_static(){
     echo "Installing SBCL on " $PLATFORM
-    SBCL_VERSION=2.6.3
+    SBCL_VERSION=2.6.6
     SBCL_DIR="sbcl-$SBCL_VERSION+r00-$PLATFORM"
-    LISP_URL="https://github.com/digikar99/sbcl-goodies-windows/releases/download/v$SBCL_VERSION%2Br00/$SBCL_DIR-binary.tar.bz2"
+    LISP_URL="https://github.com/digikar99/sbcl-goodies/releases/download/v$SBCL_VERSION%2Br00/$SBCL_DIR-binary.tar.bz2"
     echo Downloading $LISP from $LISP_URL...
     if [ -z $DRY_RUN ] ; then
         wget "$LISP_URL" -O "$SBCL_DIR.tar.bz2"

@@ -190,7 +190,7 @@ def install_clpm():
 	print("Successfully installed clpm!")
 
 def prepare_sbcl():
-	SBCL_VERSION = "2.4.11"
+	SBCL_VERSION = "2.6.6"
 	if OS.startswith("macos"):
 		run(["brew", "install", "sbcl"])
 		install_cl("{0} --dynamic-space-size {1}".format(
