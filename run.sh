@@ -174,6 +174,29 @@ prepare_sbcl(){
     esac
 }
 
+prepare_sbcl_glibc223(){
+    SBCL_VERSION="2.6.6"
+    echo "Installing SBCL on " $PLATFORM
+    case $PLATFORM in
+        *linux)
+            SBCL_DIR="sbcl-$SBCL_VERSION-$PLATFORM-glibc2.23"
+            LISP_URL="https://github.com/roswell/sbcl_bin/releases/download/$SBCL_VERSION/$SBCL_DIR-binary.tar.bz2"
+            echo Downloading $LISP from $LISP_URL...
+            if [ -z $DRY_RUN ] ; then
+                wget "$LISP_URL" -O "$SBCL_DIR.tar.bz2"
+                tar -xf "$SBCL_DIR.tar.bz2"
+                ls -l "$SBCL_DIR"
+            fi
+            echo Downloaded
+            install_cl "$SHELL $PWD/$SBCL_DIR/run-sbcl.sh --dynamic-space-size $SBCL_DYNAMIC_SPACE_SIZE"
+            ;;
+        *)
+            echo "sbcl_glibc2.23 does not make sense outside linux"
+            exit 1
+            ;;
+    esac
+}
+
 prepare_sbcl_static(){
     echo "Installing SBCL on " $PLATFORM
     SBCL_VERSION=2.6.6
